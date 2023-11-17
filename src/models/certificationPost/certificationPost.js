@@ -1,13 +1,13 @@
-const Schema = require("mongoose");
+const { model, Schema } = require('mongoose');
 
 const certificationSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   matchingPost: {
     type: Schema.Types.ObjectId,
-    ref: "MatchingPost",
+    ref: 'MatchingPost',
   },
   certificationImg: [],
   sublocation: {
@@ -15,7 +15,7 @@ const certificationSchema = new Schema({
   },
   review: {
     type: Schema.Types.ObjectId,
-    ref: "CertificationPostReview",
+    ref: 'CertificationPostReview',
   },
   // 인증글 삭제시간
   deletedAt: {
@@ -24,8 +24,8 @@ const certificationSchema = new Schema({
   },
 });
 // createdAt, updatedAt 자동 설정
-certificationSchema.set("timestamps", true);
+certificationSchema.set('timestamps', true);
 // 모델 생성
-const Certification = mongoose.model("Certification", certificationSchema);
+const Certification = model('Certification', certificationSchema);
 // 모델 export
 module.exports = Certification;

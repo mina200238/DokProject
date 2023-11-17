@@ -1,9 +1,9 @@
-const Schema = require("mongoose");
+const { model, Schema } = require('mongoose');
 
 const certificationReviewSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   rating: {
     type: Number,
@@ -20,11 +20,11 @@ const certificationReviewSchema = new Schema({
 });
 
 // createdAt, updatedAt 자동 설정
-certificationReviewSchema.set("timestamps", true);
+certificationReviewSchema.set('timestamps', true);
 // 모델 생성
-const CertificationReview = mongoose.model(
-  "CertificationReview",
-  certificationReviewSchema
+const CertificationReview = model(
+  'CertificationReview',
+  certificationReviewSchema,
 );
 // 모델 export
 module.exports = CertificationReview;

@@ -1,4 +1,4 @@
-const CertificationPostService = require("../services/certificationPostService");
+const CertificationPostService = require('../services/certificationPostService');
 
 //전체 인증글 조회
 const getCertificationPosts = async (req, re, next) => {
@@ -9,7 +9,7 @@ const getCertificationPosts = async (req, re, next) => {
 
     res.status(200).json({
       data: findCertificationPosts,
-      msg: "전체 인증글 조회",
+      msg: '전체 인증글 조회',
     });
   } catch (err) {
     next(err);
@@ -25,7 +25,7 @@ const getCertificationPostDetails = async (req, res, next) => {
 
     res.status(200).json({
       data: findCertificationPostDetails,
-      msg: "상세 인증글 조회",
+      msg: '상세 인증글 조회',
     });
   } catch (err) {
     next(err);
@@ -38,4 +38,10 @@ const postCertificationPosts = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+module.exports = {
+  getCertificationPosts,
+  getCertificationPostDetails,
+  postCertificationPosts,
 };

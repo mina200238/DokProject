@@ -61,4 +61,9 @@ const MatchingPostSchema = new Schema(
   },
 );
 
-module.exports = MatchingPostSchema;
+const MatchingPostComment = mongoose.model(
+  'matchingPostComment',
+  MatchingPostSchema,
+);
+
+module.exports = MatchingPostComment;

@@ -1,21 +1,45 @@
 const { Schema } = require('mongoose');
 
-const CategorySchema = new Schema(
+const userDogSchema = new Schema(
     {
         user :{
-            type: Schema.Types.ObjectId,
+          type: Schema.Types.ObjectId,
           ref: 'user',
           required: true,
         },
-        user_dog :{
-            type: Schema.Types.ObjectId,
-          ref: 'user',
+         dogName :{
+          type: String,
           required: true,
         },
-
-    }
-
-    
+        dogImg : {
+          type: [],
+          required: false,
+        },
+        birth : {
+          type: String,
+          required: true,
+        },
+        dogType : {
+          type : String,
+          required : true,
+        },
+        gender : {
+          type : String,
+          required : true,
+        },
+        personality : {
+          type: String,
+          required : true,
+        },
+        note : {
+          type: String,
+          required : false,
+        },
+        deletedAt: {
+          type: date,
+        },
+      },
 );
 
-module.exports = CategorySchema;
+userDogSchema.set( "timestamps", true );
+module.exports = userDogSchema;
