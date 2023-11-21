@@ -1,14 +1,22 @@
-const CustomError = require('./customError');
-
-class NotFoundError extends CustomError {
-  //statusCode = 404; => customError 는 필요없어짐 (매번 404를 전달해주지 않아도 괜찮아짐!)
+class NotFoundError extends Error {
+  statusCode = 404;
   constructor(message) {
-    super(message, 404);
+    super(message);
     this.name = 'NotFoundError';
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, NotFoundError);
     }
+  }
+  getMessage() {
+    return {
+      error: this.name,
+      message: this.message,
+    };
+  }
+
+  getStatusCode() {
+    return this.statusCode;
   }
 }
 
