@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "user": "655774f52aaed92f196f1aa4",
+      "userDog": "655ac7ffcde2d52f83105c28",
+      "price": 50000,
+      "location": { "text": "서울 강동구 무슨동 11", "code": "11220" },
+      "locationDetail": "1동 102호",
+      "walkingDate": "2023-11-20T02:40:00.000",
+      "walkingDuration": 1,
+      "requestText": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
+      "matchingStatus": "매칭중"
+    },
+    {
+      "user": "655774f52aaed92f196f1aa5",
+      "userDog": "655ac7ffcde2d52f83105c29",
+      "price": 50000,
+      "location": {
+        "text": "서울 강동구 어쩌구동 11-1",
+        "code": "11220"
+      },
+      "locationDetail": "2층 1호",
+      "walkingDate": "2023-11-20T02:44:15.670",
+      "walkingDuration": 1,
+      "requestText": "우리집 강아지 개껌을 좋아해",
+      "matchingStatus": "매칭중"
+    },
+    {
+      "user": "655774f52aaed92f196f1aa6",
+      "userDog": "655ac7ffcde2d52f83105c2a",
+      "price": 50000,
+      "location": { "text": "서울 강동구 뭔동 133", "code": "11220" },
+      "locationDetail": "100동 10호",
+      "walkingDate": "2023-11-20T02:44:15.670",
+      "walkingDuration": 2,
+      "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
+      "matchingStatus": "매칭중"
+    }
+  ]
+}

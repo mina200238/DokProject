@@ -1,39 +1,34 @@
 {
   "data": [
     {
-      "matching_post_id": "6556ff38fc13ae288e68df1d",
+      "matchingPostId": "6560938bcc7da93fb20d1796",
       "user": "6556ff38fc13ae288e68df1e",
       "comment": "University of the Philippines Manila",
-      "parent_comment_id": "6556ff38fc13ae288e68df1f",
-      "deleted_at": null
+      "parentCommentId": null
     },
     {
-      "matching_post_id": "6556ff38fc13ae288e68df20",
+      "matchingPostId": "6560938bcc7da93fb20d1796",
       "user": "6556ff38fc13ae288e68df21",
       "comment": "COMSATS Institute of Information Technology, Attock",
-      "parent_comment_id": null,
-      "deleted_at": null
+      "parentCommentId": null
     },
     {
-      "matching_post_id": "6556ff38fc13ae288e68df22",
+      "matchingPostId": "6560938bcc7da93fb20d1798",
       "user": "6556ff38fc13ae288e68df23",
       "comment": "Balkh University",
-      "parent_comment_id": null,
-      "deleted_at": "2023-02-20 16:14:45"
+      "parentCommentId": null
     },
     {
-      "matching_post_id": "6556ff38fc13ae288e68df24",
+      "matchingPostId": "6560938bcc7da93fb20d1798",
       "user": "6556ff38fc13ae288e68df25",
       "comment": "University of Southeastern Philippines",
-      "parent_comment_id": "6556ff38fc13ae288e68df26",
-      "deleted_at": null
+      "parentCommentId": null
     },
     {
-      "matching_post_id": "6556ff38fc13ae288e68df27",
+      "matchingPostId": "6560938bcc7da93fb20d179a",
       "user": "6556ff38fc13ae288e68df28",
       "comment": "Deutsche Hochschule für Verwaltungswissenschaften Speyer",
-      "parent_comment_id": "6556ff38fc13ae288e68df29",
-      "deleted_at": "2023-09-16 21:21:00"
+      "parentCommentId": null
     }
   ]
 }
