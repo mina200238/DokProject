@@ -1,28 +1,42 @@
 const { model, Schema } = require('mongoose');
 
-const certificationSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+const certificationSchema = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    matchingPost: {
+      type: Schema.Types.ObjectId,
+      ref: 'MatchingPost',
+    },
+    certificationImg: [],
+    sublocation: {
+      type: String,
+    },
+    postText: {
+      type: String,
+    },
+    review: {
+      rating: {
+        type: Number,
+        required: true,
+      },
+      reviewText: {
+        type: String,
+        required: true,
+      },
+    },
+    // 인증글 삭제시간
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
-  matchingPost: {
-    type: Schema.Types.ObjectId,
-    ref: 'MatchingPost',
+  {
+    versionKey: false,
   },
-  certificationImg: [],
-  sublocation: {
-    type: String,
-  },
-  review: {
-    type: Schema.Types.ObjectId,
-    ref: 'CertificationPostReview',
-  },
-  // 인증글 삭제시간
-  deletedAt: {
-    type: Date,
-    default: null,
-  },
-});
+);
 // createdAt, updatedAt 자동 설정
 certificationSchema.set('timestamps', true);
 // 모델 생성

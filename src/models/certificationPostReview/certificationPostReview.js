@@ -9,7 +9,7 @@ const certificationReviewSchema = new Schema({
     type: Number,
     required: true,
   },
-  review_text: {
+  reviewText: {
     type: String,
   },
   // 인증글 삭제시간
