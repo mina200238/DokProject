@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "userId": "Skipton Pauer",
+      "password": "zU5~'PhJt",
+      "name": "daskfjl",
+      "nickname": "Dynava",
+      "address": "서울특별시 강남구",
+      "phoneNumber": "484-680-4693",
+      "introduce": "Optional impactful strategy",
+      "isCertificated": true
+    },
+    {
+      "userId": "Ansley Dries",
+      "password": "gI2{njSp",
+      "name": "Kim",
+      "nickname": "Jabberbean",
+      "address": "서울특별시 강남구",
+      "phoneNumber": "560-688-7121",
+      "introduce": "Sharable logistical database",
+      "isCertificated": true
+    },
+    {
+      "userId": "Erich Kainz",
+      "password": "sA7/\"wJT/TgI",
+      "name": "Jin",
+      "nickname": "Eare",
+      "address": "서울특별시 강남구",
+      "phoneNumber": "618-856-8086",
+      "introduce": "Phased bifurcated flexibility",
+      "isCertificated": true
+    }
+  ]
+}
