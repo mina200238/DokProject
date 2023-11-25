@@ -3,7 +3,7 @@ const { model, Schema } = require('mongoose');
 const userDogSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
     required: true,
   },
   dogName: {
@@ -11,7 +11,7 @@ const userDogSchema = new Schema({
     required: true,
   },
   dogImg: {
-    type: [],
+    type: String,
     required: false,
   },
   birth: {
@@ -36,13 +36,11 @@ const userDogSchema = new Schema({
   },
   deletedAt: {
     type: Date,
+    default: null,
   },
 });
 
-// userDogSchema.set('timestamps', true);
-
+userDogSchema.set('timestamps', true);
 const UserDog = model('UserDog', userDogSchema);
 
-console.log(UserDog);
-
-module.exports = UserDog;
+module.exports = { UserDog };

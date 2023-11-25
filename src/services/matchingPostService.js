@@ -2,7 +2,6 @@ const NotFoundError = require('../errors/notFoundError');
 const MatchingPost = require('../models/matchingPost/matchingPost');
 const MatchingPostComment = require('../models/matchingPostComment/matchingPostComment');
 const MatchingHandlerRequest = require('../models/matchingHandlerRequest/matchingHandlerRequest');
-const UserDog = require('../models/userDog/userDog');
 
 class MatchingPostService {
   //전체 매칭 글 가져오기  -> Error : user_dog의 populate 안됨
@@ -31,7 +30,7 @@ class MatchingPostService {
         walkingDate: { $gte: walkingDate },
       })
         .populate('user')
-        .populate('userDog');
+        .populate('U');
 
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);

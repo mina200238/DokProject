@@ -1,6 +1,6 @@
 {
-  "workbench.colorTheme": "Kimbie Dark",
-  "editor.fontWeight": "bold",
+  "workbench.colorTheme": "Quiet Light",
+  "editor.fontWeight": "400",
   "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true

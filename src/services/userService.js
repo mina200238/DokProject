@@ -16,6 +16,10 @@ async function createUser(userCreateRequest) {
     password: encryptedPassword,
     name: userCreateRequest.getName(),
     nickname: userCreateRequest.getNickname(),
+    phoneNumber: userCreateRequest.getPhoneNumber(),
+    address: userCreateRequest.getAddress(),
+    introduce: userCreateRequest.getIntroduce(),
+    isCertificated: userCreateRequest.getIsCertificated(),
   });
 
   await user.save();
@@ -29,9 +33,6 @@ async function signIn(res, userSignInRequest) {
   const user = await User.findOne({ userId: userId });
   if (falsey(user)) {
     throw new NotFoundError(`존재하지 않는 아이디입니다. inputId: ${userId}`);
-    // //다른 계층에서 error 처리하도록 return하지 않고 throw
-    // //error: statuscode는 전달할 수 없다
-    // throw new Error(`존재하지 않는 아이디입니다. inputId: ${userId}`);
   }
 
   const isMatch = await PasswordEncoder.compare(password, user.password);
@@ -40,11 +41,46 @@ async function signIn(res, userSignInRequest) {
       `비밀번호가 일치하지 않습니다. inputPassword: ${password}`,
     );
   }
-  const jwtUtil = new JwtUtil();
-  const token = await jwtUtil.encode(user._id);
+
+  const token = new JwtUtil().encode(user._id);
   res.header('Bearer', `${token}`);
 
   return user;
 }
 
-module.exports = { createUser, signIn };
+async function editUserInfo(_id, userUpdateRequest) {
+  const encryptedPassword = await PasswordEncoder.hash(
+    userUpdateRequest.getPassword(),
+  );
+
+  const update = {
+    name: userUpdateRequest.getName(),
+    nickname: userUpdateRequest.getNickname(),
+    phoneNumber: userUpdateRequest.getPhoneNumber(),
+    address: userUpdateRequest.getAddress(),
+    password: encryptedPassword,
+  };
+  const options = { new: true };
+
+  const updatedUser = await User.findByIdAndUpdate(_id, update, options).exec();
+
+  return updatedUser;
+}
+
+async function getUser(userId) {
+  const user = await User.findOne({ userId: userId }).exec();
+  if (falsey(user)) {
+    throw new NotFoundError(`존재하지 않는 아이디입니다. inputId: ${userId}`);
+  }
+  return user;
+}
+
+async function getUserById(_id) {
+  const user = await User.findById(_id).exec();
+  if (falsey(user)) {
+    throw new NotFoundError(`존재하지 않는 아이디입니다. inputId: ${_id}`);
+  }
+  return user;
+}
+
+module.exports = { createUser, signIn, editUserInfo, getUser, getUserById };

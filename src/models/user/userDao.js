@@ -1,5 +1,5 @@
-const bcrypt = require("bcrypt");
-const User = require("./user");
+const bcrypt = require('bcrypt');
+const User = require('./user');
 
 async function makeHash(password) {
   const saltRounds = 10;
@@ -14,19 +14,19 @@ const createUser = async (
   address,
   phoneNumber,
   introduce,
-  isCertificated
+  isCertificated,
 ) => {
   //유효성검사
   const hashedPassword = await makeHash(password);
   const newUser = await User.create({
     userId,
     password: hashedPassword,
-    // name,
-    // nickname,
-    // address,
-    // phoneNumber,
-    // introduce,
-    // isCertificated,
+    name,
+    nickname,
+    address,
+    phoneNumber,
+    introduce,
+    isCertificated,
   });
 
   return newUser;
