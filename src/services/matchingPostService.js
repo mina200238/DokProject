@@ -87,12 +87,10 @@ class MatchingPostService {
 
   //매칭 상세정보 불러오기 -> 삭제된 상제 정보는 가져오지 않기
   async getMatchingPostDetails(matchingPostId) {
-    const findDetails = await MatchingPost.find(
-      {
-        _id: matchingPostId,
-      },
-      { deletedAt: null },
-    )
+    const findDetails = await MatchingPost.find({
+      _id: matchingPostId,
+      deletedAt: null,
+    })
       .populate('user')
       .populate('userDog');
 
