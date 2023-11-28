@@ -3,14 +3,16 @@ const CertificationPostService = require('../services/certificationPostService')
 //전체 인증글 조회
 const getCertificationPosts = async (req, res, next) => {
   try {
-    const certificationPostService = new CertificationPostService();
+    const { matchingPost } = req.body;
+    const { page = 1, perPage = 3 } = req.query;
     const findCertificationPosts =
-      await certificationPostService.getCertificationPosts();
+      await CertificationPostService.getCertificationPosts(
+        matchingPost,
+        page,
+        perPage,
+      );
 
-    res.status(200).json({
-      data: findCertificationPosts,
-      msg: '전체 인증글 조회',
-    });
+    res.status(200).json(findCertificationPosts);
   } catch (err) {
     next(err);
   }
@@ -19,15 +21,11 @@ const getCertificationPosts = async (req, res, next) => {
 // 상세 인증글 조회
 const getCertificationPostDetails = async (req, res, next) => {
   try {
-    const { postId } = req.body;
-    const certificationPostDetailService = new CertificationPostService();
+    const { postId } = req.params;
     const findCertificationPostDetails =
-      await certificationPostDetailService.getCertificationPostDetail(postId);
+      await CertificationPostService.getCertificationPostDetail(postId);
 
-    res.status(200).json({
-      data: findCertificationPostDetails,
-      msg: '상세 인증글 조회',
-    });
+    res.status(200).json(findCertificationPostDetails);
   } catch (err) {
     next(err);
   }
@@ -36,22 +34,36 @@ const getCertificationPostDetails = async (req, res, next) => {
 // 인증글 생성
 const postCertificationPosts = async (req, res, next) => {
   try {
-    const { user, matchingPost, sublocation, postText, review, deletedAt } =
-      req.body;
-    const certificationPostService = new CertificationPostService();
-    const newCertificationPost = certificationPostService.postCertificationPost(
-      user,
-      matchingPost,
-      sublocation,
-      postText,
-      review,
-      deletedAt,
+    const { userId, matchingPost } = req.params;
+    const { certificationImg, sublocation, postText, review } = req.body;
+    const newCertificationPost =
+      await CertificationPostService.postCertificationPost(
+        userId,
+        matchingPost,
+        certificationImg,
+        sublocation,
+        postText,
+        review,
+      );
+
+    console.log(newCertificationPost);
+    res.status(200).json(newCertificationPost);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// 인증글 수정
+const putCertificationPosts = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const Data = req.body;
+    const newPost = await CertificationPostService.updateCertificationPost(
+      userId,
+      Data,
     );
 
-    res.status(200).json({
-      data: newCertificationPost,
-      msg: '인증글 생성',
-    });
+    res.status(200).json(newPost);
   } catch (err) {
     next(err);
   }
@@ -60,19 +72,14 @@ const postCertificationPosts = async (req, res, next) => {
 // 리뷰 생성
 const postCertificationPostReviews = async (req, res, next) => {
   try {
-    const { certificationPostId } = req.body;
-    const { reviewText, score } = req.body.review;
-    const certificationPostService = new CertificationPostService();
-    const newReview = certificationPostService.postCertificationPostReview(
-      certificationPostId,
-      reviewText,
-      score,
-    );
-
-    res.status(200).json({
-      data: newReview,
-      msg: '리뷰 생성',
-    });
+    const { certificationPostId } = req.params;
+    const { review } = req.body;
+    const newReview =
+      await CertificationPostService.postCertificationPostReview(
+        certificationPostId,
+        review,
+      );
+    res.status(200).json(newReview);
   } catch (err) {
     next(err);
   }
@@ -82,18 +89,14 @@ const postCertificationPostReviews = async (req, res, next) => {
 const putCertificationPostReviews = async (req, res, next) => {
   try {
     const { certificationPostId } = req.params;
-    const { reviewText, score } = req.body.review;
-    const certificationPostService = new CertificationPostService();
-    const newReview = certificationPostService.postCertificationPostReview(
-      certificationPostId,
-      reviewText,
-      score,
-    );
+    const { review } = req.body;
+    const newReview =
+      await CertificationPostService.postCertificationPostReview(
+        certificationPostId,
+        review,
+      );
 
-    res.status(200).json({
-      data: newReview,
-      msg: '리뷰 생성',
-    });
+    res.status(200).json(newReview);
   } catch (err) {
     next(err);
   }
@@ -104,14 +107,10 @@ const putCertificationPostReviews = async (req, res, next) => {
 const getLocationCertificationPost = async (req, res, next) => {
   try {
     const { location } = req.body;
-    const certificationPostService = new CertificationPostService();
     const findLocation =
-      certificationPostService.locationCertificationPost(location);
+      await CertificationPostService.locationCertificationPost(location);
 
-    res.status(200).json({
-      data: findLocation,
-      msg: '지역별',
-    });
+    res.status(200).json(findLocation);
   } catch (err) {
     next(err);
   }
@@ -121,13 +120,10 @@ const getLocationCertificationPost = async (req, res, next) => {
 const getDateCertificationPost = async (req, res, next) => {
   try {
     const { createdAt } = req.body;
-    const certificationPostService = new CertificationPostService();
-    const findDate = certificationPostService.dateCertificationPost(createdAt);
+    const findDate =
+      await CertificationPostService.dateCertificationPost(createdAt);
 
-    res.status(200).json({
-      data: findDate,
-      msg: '날짜별',
-    });
+    res.status(200).json(findDate);
   } catch (err) {
     next(err);
   }
@@ -136,13 +132,9 @@ const getDateCertificationPost = async (req, res, next) => {
 // 오래된순
 const getOldCertificationPost = async (req, res, next) => {
   try {
-    const certificationPostService = new CertificationPostService();
-    const findOld = certificationPostService.getCertificationPosts();
+    const findOld = await CertificationPostService.getCertificationPosts();
 
-    res.status(200).json({
-      data: findOld,
-      msg: '오래된순',
-    });
+    res.status(200).json(findOld);
   } catch (err) {
     next(err);
   }
@@ -151,6 +143,7 @@ module.exports = {
   getCertificationPosts,
   getCertificationPostDetails,
   postCertificationPosts,
+  putCertificationPosts,
   postCertificationPostReviews,
   putCertificationPostReviews,
   getLocationCertificationPost,

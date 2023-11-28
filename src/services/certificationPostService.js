@@ -1,26 +1,113 @@
 const NotFoundError = require('../errors/notFoundError');
 const CertificationPost = require('../models/certificationPost/certificationPost');
-
+const MatchingPost = require('../models/matchingPost/matchingPost');
 class CertificationPostService {
   // 전체 인증글 조회
-  async getCertificationPosts() {
-    const findCertificationPost = await CertificationPost.find({
-      deletedAt: null,
-    })
-      .populate('user')
-      .populate('matchingPost')
-      .sort({ createdAt: -1 }); // 인증글을 createdAt 기준으로 내림차순으로 정렬
-    if (!findCertificationPost) {
-      throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
-    }
-    return findCertificationPost;
+  async getCertificationPosts(matchingPost, page, perPage) {
+    const findMatchingPost = await MatchingPost.find({}).project({ _id: 1 });
+    // const findCertificationPost = await CertificationPost.find({
+    //   deletedAt: null,
+    // })
+    //   .populate('user')
+    //   .populate('matchingPost')
+    //   .sort({ createdAt: -1 }); // 인증글을 createdAt 기준으로 내림차순으로 정렬
+    // console.log(findCertificationPost);
+
+    // if (!findCertificationPost) {
+    //   throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+    // }
+    // return findCertificationPost;
   }
+
+  /*
+    async getMatchingPost(location, walkingDate, page, perPage) {
+    //if문 안에 각각의 메서드로 나눌것
+    const date = new Date();
+
+    await MatchingPost.updateMany(
+      { walkingDate: { $lt: date } },
+      { matchingStatus: 'failed' },
+    );
+
+    //둘 다 있을 때
+    if (walkingDate && location) {
+      const findPost = await MatchingPost.find({
+        'location.code': {
+          $regex: new RegExp(`${location.code}`),
+        },
+        walkingDate: { $gte: walkingDate },
+        deletedAt: null,
+      })
+        .skip(perPage * (page - 1))
+        .limit(perPage)
+        .populate('user')
+        .populate('userDog');
+
+      if (!findPost) {
+        throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+      }
+      return findPost;
+    }
+
+    if (!walkingDate && location) {
+      const findPost = await MatchingPost.find({
+        'location.code': {
+          $regex: new RegExp(`${location.code}`),
+        },
+        deletedAt: null,
+      })
+        .skip(perPage * (page - 1))
+        .limit(perPage)
+        .populate('user')
+        .populate('userDog');
+
+      if (!findPost) {
+        throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+      }
+      return findPost;
+    }
+
+    if (!location && walkingDate) {
+      //date 검색
+
+      const findPost = await MatchingPost.find({
+        walkingDate: { $gte: walkingDate },
+        deletedAt: null,
+      })
+        .skip(perPage * (page - 1))
+        .limit(perPage)
+        .populate('user')
+        .populate('userDog');
+
+      if (!findPost) {
+        throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+      }
+      return findPost;
+    }
+
+    if (!location && !walkingDate) {
+      const findPost = await MatchingPost.find({ deletedAt: null })
+        .skip(perPage * (page - 1))
+        .limit(perPage)
+        .populate('user')
+        .populate('userDog');
+
+      if (!findPost) {
+        throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+      }
+      return findPost;
+    }
+  }
+    */
 
   // 상세 인증글 조회
   getCertificationPostDetail(postId) {
-    const findCertificationPostDetail = CertificationPost.find({
-      _id: postId,
-    })
+    const findCertificationPostDetail = CertificationPost.find(
+      {
+        _id: postId,
+      },
+      { deletedAt: null },
+    )
       .populate('user')
       .populate('matchingPost');
 
@@ -56,13 +143,12 @@ class CertificationPostService {
   }
 
   // 인증글 수정
-  deleteCertificationPost(certificationPostId, Data) {
+  updateCertificationPost(certificationPostId, Data) {
     const updatePost = CertificationPost.findOneAndUpdate(
       {
         _id: certificationPostId,
       },
       {
-        deletedAt: Date.now(),
         Data,
       },
     );

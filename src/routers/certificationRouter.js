@@ -3,6 +3,7 @@ const {
   getCertificationPosts,
   getCertificationPostDetails,
   postCertificationPosts,
+  putCertificationPosts,
   postCertificationPostReviews,
   putCertificationPostReviews,
   // 검색
@@ -14,22 +15,30 @@ const {
 const router = Router();
 
 // 인증글 생성
-router.post('/postCertificationPost', postCertificationPosts);
+router.post(
+  '/newCertificationPost/:userId/:matchingPost',
+  postCertificationPosts,
+);
 // 전체 인증글 조회
-router.get('/getCertificationPost', getCertificationPosts);
+router.get('/allCertificationPost', getCertificationPosts);
 // 상세 인증글 조회
-router.get('/getCertificationPostDetails/:userId', getCertificationPostDetails);
+router.get('/certificationPostDetails/:postId', getCertificationPostDetails);
+// 인증글 수정
+router.put('/certificationPost', putCertificationPosts);
 // 리뷰 생성
-router.post('/postCertificationPostReview', postCertificationPostReviews);
+router.put(
+  '/newCertificationPostReview/:certificationPostId',
+  postCertificationPostReviews,
+);
 // 리뷰 수정
-router.put('/putCertificationPost', putCertificationPostReviews);
+router.put('/certificationPostReview', putCertificationPostReviews);
 
 // 검색
 // 위치
-router.get('/getLocationCertificationPost', getLocationCertificationPost);
+router.get('/locationCertificationPost', getLocationCertificationPost);
 // 날짜
-router.get('/getDateCertificationPost', getDateCertificationPost);
+router.get('/dateCertificationPost', getDateCertificationPost);
 // 오래된순
-router.get('/getOldCertificationPost', getOldCertificationPost);
+router.get('/oldCertificationPost', getOldCertificationPost);
 
 module.exports = router;

@@ -1,5 +1,9 @@
 const { Router } = require('express');
-const { matchingRequest } = require('../controllers/matchingRequestController');
+const {
+  matchingRequest,
+  updateMatchingRequest,
+} = require('../controllers/matchingRequestController');
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 const router = Router();
 
@@ -8,5 +12,11 @@ const router = Router();
 
 // 매칭 신청하기
 router.post('/matchingRequest/:userId', matchingRequest);
+// 매칭글 수정하기
+router.put(
+  '/newMatchingRequest',
+  jwtMiddleware.authenticateToken,
+  updateMatchingRequest,
+);
 
 module.exports = router;

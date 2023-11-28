@@ -1,6 +1,6 @@
 const MatchingRequestService = require('../services/matchingRequestService');
 
-// real
+// 매칭글 신청하기
 const matchingRequest = async (req, res, next) => {
   try {
     const { userId } = req.params;
@@ -28,6 +28,35 @@ const matchingRequest = async (req, res, next) => {
   }
 };
 
+// 매칭글 수정하기
+const updateMatchingRequest = async (req, res, next) => {
+  try {
+    const _id = req._id;
+    const {
+      price,
+      location,
+      locationDetail,
+      walkingDate,
+      walkingDuration,
+      requestText,
+    } = req.body;
+    const updatedMatchingRequest =
+      await MatchingRequestService.postMatchingRequest(
+        _id,
+        price,
+        location,
+        locationDetail,
+        walkingDate,
+        walkingDuration,
+        requestText,
+      );
+
+    res.status(200).json(updatedMatchingRequest);
+  } catch (err) {
+    next(err);
+  }
+};
+
 // // 강아지 정보 받아오기
 // const getDogInfo = async (req, res, next) => {
 //   try {
@@ -40,7 +69,7 @@ const matchingRequest = async (req, res, next) => {
 //   }
 // };
 
-// // 매칭글 신청하기
+//
 // const postMatchingRequest = async (req, res, next) => {
 //   try {
 //     const { userId } = req.params;
@@ -73,4 +102,4 @@ const matchingRequest = async (req, res, next) => {
 //   }
 // };
 
-module.exports = { matchingRequest };
+module.exports = { matchingRequest, updateMatchingRequest };
