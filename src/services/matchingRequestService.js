@@ -21,6 +21,8 @@ class MatchingRequestService {
     // dto 사용하기.
   ) {
     const findUserDog = await UserDog.find({ user: userId });
+    // console.log(findUserDog);
+    // console.log(findUserDog[0]._id);
     const newMatchingPost = await MatchingRequest.create({
       user: userId,
       userDog: findUserDog[0]._id,

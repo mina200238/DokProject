@@ -140,12 +140,10 @@ class CertificationPostService {
 
   // 상세 인증글 조회
   getCertificationPostDetail(postId) {
-    const findCertificationPostDetail = CertificationPost.find(
-      {
-        _id: postId,
-      },
-      { deletedAt: null },
-    )
+    const findCertificationPostDetail = CertificationPost.find({
+      _id: postId,
+      deletedAt: null,
+    })
       .populate('user')
       .populate('matchingPost');
 
@@ -181,10 +179,10 @@ class CertificationPostService {
   }
 
   // 인증글 수정
-  updateCertificationPost(certificationPostId, Data) {
+  updateCertificationPost(_id, Data) {
     const updatePost = CertificationPost.findOneAndUpdate(
       {
-        _id: certificationPostId,
+        _id: _id,
       },
       {
         Data,
@@ -216,10 +214,10 @@ class CertificationPostService {
 
   // 리뷰 수정
   // 생성 과정과 동일
-  putCertificationPostReview(certificationPostId, reviewText, rating) {
+  putCertificationPostReview(_id, matchingPost, review) {
     const updatedReview = CertificationPost.findOneAndUpdate(
       {
-        _id: certificationPostId,
+        matchingPost: _id,
       },
       {
         review,
