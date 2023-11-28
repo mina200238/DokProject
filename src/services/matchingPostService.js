@@ -7,7 +7,7 @@ class MatchingPostService {
   //전체 매칭 글 가져오기  -> 삭제된 게시글은 가져오지 않기 , 페이지네이션
 
   async getMatchingPost(location, walkingDate, page, perPage) {
-    //if문 안에 각각의 메서드로 나눌것
+    // if문 안에 각각의 메서드로 나눌것
     const date = new Date();
 
     await MatchingPost.updateMany(
