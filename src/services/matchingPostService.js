@@ -4,6 +4,7 @@ const MatchingPostComment = require('../models/matchingPostComment/matchingPostC
 const MatchingHandlerRequest = require('../models/matchingHandlerRequest/matchingHandlerRequest');
 
 class MatchingPostService {
+  //🚩날짜 검색 고치는중...
   //전체 매칭 글 가져오기  -> 삭제된 게시글은 가져오지 않기 , 페이지네이션
 
   async getMatchingPost(locationCode, walkingDate, page, perPage) {
@@ -16,12 +17,19 @@ class MatchingPostService {
     );
 
     //둘 다 있을 때
+
     if (walkingDate && locationCode) {
+      const walkingDateObj = new Date(walkingDate);
+
+      console.log(walkingDateObj);
       const findPost = await MatchingPost.find({
         'location.code': {
           $regex: new RegExp(`${locationCode}`),
         },
-        walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
+        walkingDate: {
+          $gte: walkingDateObj,
+          $lt: new Date(walkingDateObj.getTime() + 24 * 60 * 60 * 1000),
+        },
         deletedAt: null,
       })
         .skip(perPage * (page - 1))
@@ -32,8 +40,26 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return findPost;
+      return;
     }
+
+    // const findPost = await MatchingPost.find({
+    //   'location.code': {
+    //     $regex: new RegExp(`${locationCode}`),
+    //   },
+    //   walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
+    //   deletedAt: null,
+    // })
+    // .skip(perPage * (page - 1))
+    // .limit(perPage)
+    // .populate('user')
+    // .populate('userDog');
+
+    //   if (!findPost) {
+    //     throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+    //   }
+    //   return findPost;
+    // }
 
     if (!walkingDate && locationCode) {
       const findPost = await MatchingPost.find({

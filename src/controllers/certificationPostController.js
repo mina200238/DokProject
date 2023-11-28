@@ -107,31 +107,6 @@ const putCertificationPostReviews = async (req, res, next) => {
   }
 };
 
-// 검색기능
-// 지역 선택
-// const getCertificationPost = async (req, res, next) => {
-//   try {
-//     const {
-//       page = 1,
-//       perPage = 3,
-//       locationCode = null,
-//       walkingDate = null,
-//     } = req.query;
-
-//     const findCertification =
-//       await CertificationPostService.locationCertificationPost(
-//         page,
-//         perPage,
-//         locationCode,
-//         walkingDate,
-//       );
-
-//     res.status(200).json(findCertification);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
 module.exports = {
   getCertificationPosts,
   getCertificationPostDetails,

@@ -31,7 +31,4 @@ router.put(
 // 리뷰 수정
 router.put('/certificationPostReview', putCertificationPostReviews);
 
-// // 검색
-// router.get('/certificationPost', getLocationCertificationPost);
-
 module.exports = router;

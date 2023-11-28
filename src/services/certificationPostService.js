@@ -35,7 +35,12 @@ class CertificationPostService {
         matchingPost: { $in: result },
       })
         .skip(perPage * (page - 1))
-        .limit(perPage);
+        .limit(perPage)
+        .populate('matchingPost');
+
+      if (!foundDocuments) {
+        throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+      }
 
       return foundDocuments;
     }
@@ -61,7 +66,12 @@ class CertificationPostService {
         matchingPost: { $in: result },
       })
         .skip(perPage * (page - 1))
-        .limit(perPage);
+        .limit(perPage)
+        .populate('matchingPost');
+
+      if (!foundDocuments) {
+        throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+      }
 
       return foundDocuments;
     }
@@ -87,7 +97,12 @@ class CertificationPostService {
         matchingPost: { $in: result },
       })
         .skip(perPage * (page - 1))
-        .limit(perPage);
+        .limit(perPage)
+        .populate('matchingPost');
+
+      if (!foundDocuments) {
+        throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+      }
 
       return foundDocuments;
     }
@@ -112,7 +127,12 @@ class CertificationPostService {
         matchingPost: { $in: result },
       })
         .skip(perPage * (page - 1))
-        .limit(perPage);
+        .limit(perPage)
+        .populate('matchingPost');
+
+      if (!foundDocuments) {
+        throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+      }
 
       return foundDocuments;
     }
