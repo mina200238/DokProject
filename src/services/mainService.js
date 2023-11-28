@@ -14,7 +14,10 @@ class MainService {
     const randomDogInfo = await UserDog.aggregate([{ $sample: { size: 3 } }]); //강아지 3마리 성공
 
     //3. 오늘의 매칭(최신 3개만 불러오기)  .limit(3)
-    const latestMatchingPost = await MatchingPost.find({}).limit(3); //최신글 3개 성공
+    const latestMatchingPost = await MatchingPost.find({})
+      .limit(3)
+      .populate('user')
+      .populate('userDog'); //최신글 3개 성공
 
     //4. 4. 후기 별점순 3개고른 후 sorting해서 보내기 .limit() -> 인덱싱 처리?
     // // 역인덱스 생성
@@ -26,7 +29,9 @@ class MainService {
       review: { $not: { $eq: null } },
     })
       .sort({ 'review.rating': -1 })
-      .limit(3);
+      .limit(3)
+      .populate('user')
+      .populate('matchingPost');
 
     if (!randomDogInfo || !latestMatchingPost || !topCertification) {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
