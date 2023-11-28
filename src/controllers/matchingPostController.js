@@ -3,12 +3,15 @@ const MatchingPostService = require('../services/matchingPostService');
 //매칭 상태 체크 후 , 전체 매칭 글 가져오기  (페이지 네이션)
 const getMatchingPosts = async (req, res, next) => {
   try {
-    const { location, walkingDate } = req.body;
-
-    const { page = 1, perPage = 3 } = req.query;
+    const {
+      page = 1,
+      perPage = 3,
+      locationCode = null,
+      walkingDate = null,
+    } = req.query;
 
     const findMatchingPosts = await MatchingPostService.getMatchingPost(
-      location,
+      locationCode,
       walkingDate,
       page,
       perPage,

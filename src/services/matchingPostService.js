@@ -6,8 +6,8 @@ const MatchingHandlerRequest = require('../models/matchingHandlerRequest/matchin
 class MatchingPostService {
   //전체 매칭 글 가져오기  -> 삭제된 게시글은 가져오지 않기 , 페이지네이션
 
-  async getMatchingPost(location, walkingDate, page, perPage) {
-    // if문 안에 각각의 메서드로 나눌것
+  async getMatchingPost(locationCode, walkingDate, page, perPage) {
+    //if문 안에 각각의 메서드로 나눌것
     const date = new Date();
 
     await MatchingPost.updateMany(
@@ -16,10 +16,10 @@ class MatchingPostService {
     );
 
     //둘 다 있을 때
-    if (walkingDate && location) {
+    if (walkingDate && locationCode) {
       const findPost = await MatchingPost.find({
         'location.code': {
-          $regex: new RegExp(`${location.code}`),
+          $regex: new RegExp(`${locationCode}`),
         },
         walkingDate: { $gte: walkingDate },
         deletedAt: null,
@@ -35,10 +35,10 @@ class MatchingPostService {
       return findPost;
     }
 
-    if (!walkingDate && location) {
+    if (!walkingDate && locationCode) {
       const findPost = await MatchingPost.find({
         'location.code': {
-          $regex: new RegExp(`${location.code}`),
+          $regex: new RegExp(`${locationCode}`),
         },
         deletedAt: null,
       })
@@ -53,7 +53,7 @@ class MatchingPostService {
       return findPost;
     }
 
-    if (!location && walkingDate) {
+    if (!locationCode && walkingDate) {
       //date 검색
 
       const findPost = await MatchingPost.find({
@@ -71,7 +71,7 @@ class MatchingPostService {
       return findPost;
     }
 
-    if (!location && !walkingDate) {
+    if (!locationCode && !walkingDate) {
       const findPost = await MatchingPost.find({ deletedAt: null })
         .skip(perPage * (page - 1))
         .limit(perPage)
