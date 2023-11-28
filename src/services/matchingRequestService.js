@@ -1,3 +1,4 @@
+const NotFoundError = require('../errors/notFoundError');
 const MatchingRequest = require('../models/matchingPost/matchingPost');
 const UserDog = require('../models/user/userDog');
 
@@ -30,6 +31,10 @@ class MatchingRequestService {
       walkingDuration,
       requestText,
     });
+
+    if (!findUserDog || !newMatchingPost) {
+      throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+    }
 
     return newMatchingPost;
   }
