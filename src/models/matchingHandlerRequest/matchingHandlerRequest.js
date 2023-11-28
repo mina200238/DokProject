@@ -17,6 +17,7 @@ const MatchingHandlerRequestSchema = new Schema(
 
     deletedAt: {
       type: Date,
+      default: null,
     },
   },
   {
