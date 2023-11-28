@@ -207,4 +207,5 @@ class MatchingPostService {
   }
 }
 
-module.exports = MatchingPostService;
+const matchingPostService = new MatchingPostService();
+module.exports = matchingPostService;

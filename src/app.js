@@ -14,6 +14,7 @@ const matchingPostRouter = require('./routers/matchingPostRouter.js');
 const certificationPostRouter = require('./routers/certificationRouter');
 const errorHandler = require('./middlewares/errorHandler');
 const matchingRequestRouter = require('./routers/matchingRequestRouter.js');
+const mainRouter = require('./routers/mainRouter.js');
 
 mongoose
   .connect(process.env.MONGO_DB_URL)
@@ -36,6 +37,8 @@ app.use(cookieParser());
 app.get('/api', (req, res) => {
   res.send('Hello express !');
 });
+
+app.use('/api/main', mainRouter);
 
 app.use('/api/users', userRouter);
 app.use('/api/matchingPostLists', matchingPostRouter); // 전체 게시글 불러오기

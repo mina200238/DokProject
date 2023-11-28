@@ -4,9 +4,10 @@ const MatchingPostService = require('../services/matchingPostService');
 const getMatchingPosts = async (req, res, next) => {
   try {
     const { location, walkingDate } = req.body;
-    const { page, perPage } = req.query;
-    const matchingPostService = new MatchingPostService();
-    const findMatchingPosts = await matchingPostService.getMatchingPost(
+
+    const { page = 1, perPage = 3 } = req.query;
+
+    const findMatchingPosts = await MatchingPostService.getMatchingPost(
       location,
       walkingDate,
       page,
@@ -22,9 +23,8 @@ const getMatchingPosts = async (req, res, next) => {
 const getMatchingPostDetails = async (req, res, next) => {
   try {
     const { matchingPostId } = req.params;
-    const matchingPostService = new MatchingPostService();
     const findMatchingPostDetails =
-      await matchingPostService.getMatchingPostDetails(matchingPostId);
+      await MatchingPostService.getMatchingPostDetails(matchingPostId);
 
     res.status(200).json(findMatchingPostDetails);
   } catch (err) {
@@ -36,8 +36,7 @@ const getMatchingPostDetails = async (req, res, next) => {
 const getComments = async (req, res, next) => {
   try {
     const { matchingPostId } = req.params; //해당 matchingpost의 _id
-    const matchingPostService = new MatchingPostService();
-    const GetComment = await matchingPostService.getAllComments(matchingPostId);
+    const GetComment = await MatchingPostService.getAllComments(matchingPostId);
 
     res.status(200).json(GetComment);
   } catch (err) {
@@ -50,8 +49,7 @@ const postComment = async (req, res, next) => {
   try {
     const { matchingPostId, user, comment, parentCommentId } = req.body;
     //  댓글을 작성할 때에도 동일한 이름으로 받아와야함
-    const matchingPostService = new MatchingPostService();
-    const postComment = await matchingPostService.postComment(
+    const postComment = await MatchingPostService.postComment(
       matchingPostId,
       user,
       comment,
@@ -70,8 +68,7 @@ const updateComment = async (req, res, next) => {
     const { commentId } = req.params; //해당 matchingpost의 __id를 동일한 걸로 받아와야함
     const { comment } = req.body; //수정할 댓글 내용을 body에 담아옴
 
-    const matchingPostService = new MatchingPostService();
-    const updateComment = await matchingPostService.updateComment(
+    const updateComment = await MatchingPostService.updateComment(
       commentId,
       comment,
     );
@@ -86,8 +83,7 @@ const deleteComment = async (req, res, next) => {
   try {
     const { commentId } = req.params; //해당 comment의 _id
 
-    const matchingPostService = new MatchingPostService();
-    const deleteComment = await matchingPostService.deleteComment(commentId);
+    const deleteComment = await MatchingPostService.deleteComment(commentId);
 
     res.status(200).json(deleteComment);
   } catch (err) {
@@ -100,9 +96,9 @@ const deleteComment = async (req, res, next) => {
 const getRequestLists = async (req, res, next) => {
   try {
     const { matchingPostId } = req.params;
-    const matchingPostService = new MatchingPostService();
+
     const getRequestLists =
-      await matchingPostService.getRequestLists(matchingPostId);
+      await MatchingPostService.getRequestLists(matchingPostId);
     res.status(200).json(getRequestLists);
   } catch (err) {
     next(err);
@@ -113,8 +109,8 @@ const getRequestLists = async (req, res, next) => {
 const postRequest = async (req, res, next) => {
   try {
     const { user, matchingPostId } = req.params;
-    const matchingPostService = new MatchingPostService();
-    const postRequest = await matchingPostService.postRequest(
+
+    const postRequest = await MatchingPostService.postRequest(
       user,
       matchingPostId,
     );
@@ -129,8 +125,8 @@ const postRequest = async (req, res, next) => {
 const confirmRequest = async (req, res, next) => {
   try {
     const { matchingPostId, handlerRequestId } = req.params;
-    const matchingPostService = new MatchingPostService();
-    const confirmRequest = await matchingPostService.confirmRequest(
+
+    const confirmRequest = await MatchingPostService.confirmRequest(
       matchingPostId,
       handlerRequestId,
     );
