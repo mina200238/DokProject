@@ -21,7 +21,7 @@ class MatchingPostService {
         'location.code': {
           $regex: new RegExp(`${locationCode}`),
         },
-        walkingDate: { $gte: walkingDate },
+        walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
         deletedAt: null,
       })
         .skip(perPage * (page - 1))
@@ -185,16 +185,17 @@ class MatchingPostService {
   //산책 요청 확정하기
 
   async confirmRequest(matchingPostId, handlerRequestId) {
-    // 해당 matchingPostId를 가지고 있는 comment document를 찾기
-    const comment = await MatchingHandlerRequest.findOne({
-      _id: handlerRequestId,
-      matchingPostId: matchingPostId,
-    });
+    // 해당 matchingPostId와 user id를 가지고 있는 request document를 찾기
+    // const comment = await MatchingHandlerRequest.findOne({
+    //   user: handlerRequestId,
+    //   matchingPostId: matchingPostId,
+    // });
 
+    // console.log(comment.user);
     const confirmMatching = await MatchingPost.findOneAndUpdate(
-      { _id: matchingPostId },
+      { _id: matchingPostId, matchingStatus: { $not: { $eq: 'failed' } } },
       {
-        matchingHandler: comment.user,
+        matchingHandler: handlerRequestId,
         matchingStatus: 'completed',
       },
     );
@@ -202,6 +203,7 @@ class MatchingPostService {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
     }
     return confirmMatching;
+    // return;
   }
 }
 

@@ -11,13 +11,94 @@ class CertificationPostService {
       { matchingStatus: 'failed' },
     );
 
-    if (!locationCode) {
+    //🙄locationCode랑 walkingDate 둘 다 있을 때
+    if (locationCode && walkingDate) {
       //해당 날짜가 지나지 않고, 'failed'가 아닌 MatchingPost의 값만 불러오기
 
       const result = await MatchingPost.aggregate([
         {
           $match: {
-            walkingDate: { $gte: walkingDate },
+            walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
+            'location.code': {
+              $regex: new RegExp(`${locationCode}`),
+            },
+            deletedAt: null,
+          },
+        },
+        {
+          $project: { _id: 1 },
+        },
+      ]);
+
+      //해당 matchingPost의 id를 가지고 있는 인증글 찾기
+      const foundDocuments = await CertificationPost.find({
+        matchingPost: { $in: result },
+      })
+        .skip(perPage * (page - 1))
+        .limit(perPage);
+
+      return foundDocuments;
+    }
+
+    //🙄 locationCode가 있고, walkingDate가 없을 때
+    if (locationCode && !walkingDate) {
+      const result = await MatchingPost.aggregate([
+        {
+          $match: {
+            'location.code': {
+              $regex: new RegExp(`${locationCode}`),
+            },
+            deletedAt: null,
+          },
+        },
+        {
+          $project: { _id: 1 },
+        },
+      ]);
+
+      //해당 matchingPost의 id를 가지고 있는 인증글 찾기
+      const foundDocuments = await CertificationPost.find({
+        matchingPost: { $in: result },
+      })
+        .skip(perPage * (page - 1))
+        .limit(perPage);
+
+      return foundDocuments;
+    }
+
+    //🙄locationCode가 없고, walkingDate가 있을 때
+    if (!locationCode && walkingDate) {
+      //해당 날짜가 지나지 않고, 'failed'가 아닌 MatchingPost의 값만 불러오기
+
+      const result = await MatchingPost.aggregate([
+        {
+          $match: {
+            walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
+            deletedAt: null,
+          },
+        },
+        {
+          $project: { _id: 1 },
+        },
+      ]);
+
+      //해당 matchingPost의 id를 가지고 있는 인증글 찾기
+      const foundDocuments = await CertificationPost.find({
+        matchingPost: { $in: result },
+      })
+        .skip(perPage * (page - 1))
+        .limit(perPage);
+
+      return foundDocuments;
+    }
+
+    //🙄locatonCode와 walkingDate 둘 다 없을 때
+    if (!locationCode && !walkingDate) {
+      //해당 날짜가 지나지 않고, 'failed'가 아닌 MatchingPost의 값만 불러오기
+
+      const result = await MatchingPost.aggregate([
+        {
+          $match: {
             deletedAt: null,
           },
         },
