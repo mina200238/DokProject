@@ -1,37 +1,18 @@
-// const { Router } = require('express');
-// const {
-//   getMatchingPosts,
-//   getMatchingPostDetails,
-//   getComments,
-//   postComment,
-//   updateComment,
-//   deleteComment,
-//   getRequestLists,
-//   postRequest,
-//   confirmRequest,
-// } = require('../controllers/matchingPostController');
+const { Router } = require('express');
+const {} = require('../controllers/matchingPostController');
 
-// const router = Router();
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
-// //게시글 정렬 관련 기능
+const router = Router();
 
-// //매칭 메인
-// router.get('/', getMatchingPosts); //전체 매칭 글 가져오기(default)
+//내가 쓴 매칭글 가져오기
 
-// router.get('/:matchingPostId', getMatchingPostDetails); //상세 게시글 불러오기
+router.get('/myMatchingPosts', jwtMiddleware.authenticateToken);
 
-// //매칭 디테일
-// //댓글 관련 기능
+// 요청 완료된 매칭 포스트에서 인증글을 작성 안한 목록 가져오기
+router.get('/myCertification', jwtMiddleware.authenticateToken);
 
-// router.get('/comment/:matchingPostId', getComments); // 댓글 가져오기
-// router.post('/comment', postComment); //댓글 작성하기
-// router.put('/comment/:commentId', updateComment); //댓글 수정하기
-// router.delete('/comment/:commentId', deleteComment); //댓글 삭제하기
+// 내가 작성한 인증글 목록 가져오기
+router.get('/myCertification/:userId', jwtMiddleware.authenticateToken);
 
-// //산책 요청 기능
-
-// router.get('/handler/:matchingPostId', getRequestLists); // 산책 요청 리스트 가져오기
-// router.post('/handler/:user/:matchingPostId', postRequest); //산책 요청하기
-// router.put('/handler/:matchingPostId/:handlerRequestId', confirmRequest); //산책 요청 확정하기
-
-// module.exports = router;
+module.exports = router;

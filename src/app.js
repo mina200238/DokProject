@@ -42,8 +42,8 @@ app.get('/api', (req, res) => {
 app.use('/api/main', mainRouter);
 
 app.use('/api/users', userRouter);
-// app.use('/api/mypage/matchingPost', myPageRouter);    //마이페이지, 내가 쓴 매칭 글 가져오기
-// app.use('/api/mypage/certificationPost', myPageRouter);  //마이페이지, 내 인증글 불러오기
+app.use('/api/mypage', myPageRouter); //마이페이지
+
 app.use('/api/matchingPostLists', matchingPostRouter); // 전체 게시글 불러오기
 app.use('/api/matchingPostDetail', matchingPostRouter); // 상세 정보 불러오기 ()
 

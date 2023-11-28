@@ -3,13 +3,18 @@ const CertificationPostService = require('../services/certificationPostService')
 //전체 인증글 조회
 const getCertificationPosts = async (req, res, next) => {
   try {
-    const { matchingPost } = req.body;
-    const { page = 1, perPage = 3 } = req.query;
+    const {
+      page = 1,
+      perPage = 3,
+      locationCode = null,
+      walkingDate = null,
+    } = req.query;
     const findCertificationPosts =
       await CertificationPostService.getCertificationPosts(
-        matchingPost,
         page,
         perPage,
+        locationCode,
+        walkingDate,
       );
 
     res.status(200).json(findCertificationPosts);
@@ -104,41 +109,29 @@ const putCertificationPostReviews = async (req, res, next) => {
 
 // 검색기능
 // 지역 선택
-const getLocationCertificationPost = async (req, res, next) => {
-  try {
-    const { location } = req.body;
-    const findLocation =
-      await CertificationPostService.locationCertificationPost(location);
+// const getCertificationPost = async (req, res, next) => {
+//   try {
+//     const {
+//       page = 1,
+//       perPage = 3,
+//       locationCode = null,
+//       walkingDate = null,
+//     } = req.query;
 
-    res.status(200).json(findLocation);
-  } catch (err) {
-    next(err);
-  }
-};
+//     const findCertification =
+//       await CertificationPostService.locationCertificationPost(
+//         page,
+//         perPage,
+//         locationCode,
+//         walkingDate,
+//       );
 
-// 날짜 선택
-const getDateCertificationPost = async (req, res, next) => {
-  try {
-    const { createdAt } = req.body;
-    const findDate =
-      await CertificationPostService.dateCertificationPost(createdAt);
+//     res.status(200).json(findCertification);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 
-    res.status(200).json(findDate);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// 오래된순
-const getOldCertificationPost = async (req, res, next) => {
-  try {
-    const findOld = await CertificationPostService.getCertificationPosts();
-
-    res.status(200).json(findOld);
-  } catch (err) {
-    next(err);
-  }
-};
 module.exports = {
   getCertificationPosts,
   getCertificationPostDetails,
@@ -146,7 +139,4 @@ module.exports = {
   putCertificationPosts,
   postCertificationPostReviews,
   putCertificationPostReviews,
-  getLocationCertificationPost,
-  getDateCertificationPost,
-  getOldCertificationPost,
 };

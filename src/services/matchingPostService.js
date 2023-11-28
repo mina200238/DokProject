@@ -57,7 +57,7 @@ class MatchingPostService {
       //date 검색
 
       const findPost = await MatchingPost.find({
-        walkingDate: { $gte: walkingDate },
+        walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
         deletedAt: null,
       })
         .skip(perPage * (page - 1))
