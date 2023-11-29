@@ -1,18 +1,34 @@
 const { Router } = require('express');
-const {} = require('../controllers/matchingPostController');
+const {
+  getMyMatchingPost,
+  getUncertificatiedList,
+  getCertificationList,
+} = require('../controllers/myPageController');
 
-const jwtMiddleware = require('../middlewares/jwtMiddleware');
+// const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 const router = Router();
 
 //내가 쓴 매칭글 가져오기
 
-router.get('/myMatchingPosts', jwtMiddleware.authenticateToken);
+router.get(
+  '/myMatchingPosts/:userId',
+  //   jwtMiddleware.authenticateToken,
+  getMyMatchingPost,
+);
 
-// 요청 완료된 매칭 포스트에서 인증글을 작성 안한 목록 가져오기
-router.get('/myCertification', jwtMiddleware.authenticateToken);
+// 매칭 완료된 매칭 포스트 중에서, 인증글을 작성하지 않은 목록 가져오기
+router.get(
+  '/myCertification/:userId',
+  //   jwtMiddleware.authenticateToken,
+  getUncertificatiedList,
+);
 
 // 내가 작성한 인증글 목록 가져오기
-router.get('/myCertification/:userId', jwtMiddleware.authenticateToken);
+router.get(
+  '/myCertificationLists/:userId',
+  //   jwtMiddleware.authenticateToken,
+  getCertificationList,
+);
 
 module.exports = router;

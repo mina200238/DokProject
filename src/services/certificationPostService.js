@@ -86,7 +86,7 @@ class CertificationPostService {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
 
-      return foundDocuments;
+      return [foundDocuments.length, foundDocuments];
     }
 
     //🙄 locationCode가 있고, walkingDate가 없을 때
@@ -117,7 +117,7 @@ class CertificationPostService {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
 
-      return foundDocuments;
+      return [foundDocuments.length, foundDocuments];
     }
 
     //🙄locationCode가 없고, walkingDate가 있을 때
@@ -173,7 +173,7 @@ class CertificationPostService {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
 
-      return foundDocuments;
+      return [foundDocuments.length, foundDocuments];
     }
 
     //🙄locatonCode와 walkingDate 둘 다 없을 때
@@ -203,7 +203,7 @@ class CertificationPostService {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
 
-      return foundDocuments;
+      return [foundDocuments.length, foundDocuments];
     }
   }
 

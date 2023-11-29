@@ -78,7 +78,7 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return findPost;
+      return [findPost.length, findPost];
     }
 
     if (!walkingDate && locationCode) {
@@ -96,7 +96,7 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return findPost;
+      return [findPost.length, findPost];
     }
 
     if (!locationCode && walkingDate) {
@@ -139,7 +139,7 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return findPost;
+      return [findPost.length, findPost];
     }
 
     //날짜 & 장소 둘 다 없을 때
@@ -153,7 +153,7 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return findPost;
+      return [findPost.length, findPost];
     }
   }
 

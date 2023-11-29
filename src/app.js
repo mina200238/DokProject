@@ -15,7 +15,7 @@ const certificationPostRouter = require('./routers/certificationRouter');
 const errorHandler = require('./middlewares/errorHandler');
 const matchingRequestRouter = require('./routers/matchingRequestRouter.js');
 const mainRouter = require('./routers/mainRouter.js');
-const myPageRouter = require('./routers/mainRouter.js');
+const myPageRouter = require('./routers/myPageRouter.js');
 
 mongoose
   .connect(process.env.MONGO_DB_URL)
