@@ -60,11 +60,16 @@ const postCertificationPosts = async (req, res, next) => {
 // 인증글 수정
 const putCertificationPosts = async (req, res, next) => {
   try {
-    const _id = req._id;
-    const Data = req.body;
+    // const _id = req._id;
+    const { certificationPostId } = req.params;
+    const { certificationImg, sublocation, postText, review } = req.body;
     const newPost = await CertificationPostService.updateCertificationPost(
-      _id,
-      Data,
+      // _id,
+      certificationPostId,
+      certificationImg,
+      sublocation,
+      postText,
+      review,
     );
 
     res.status(200).json(newPost);
@@ -92,12 +97,13 @@ const postCertificationPostReviews = async (req, res, next) => {
 // 리뷰 수정
 const putCertificationPostReviews = async (req, res, next) => {
   try {
-    const _id = req._id;
-    const { matchingPost, review } = req.body;
+    // const _id = req._id;
+    const { certificationPostId } = req.params;
+    const { review } = req.body;
     const newReview =
       await CertificationPostService.postCertificationPostReview(
-        _id,
-        matchingPost,
+        // _id,
+        certificationPostId,
         review,
       );
 

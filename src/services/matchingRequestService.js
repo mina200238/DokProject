@@ -69,7 +69,8 @@ class MatchingRequestService {
   }
   // 매칭글 수정하기
   async putMatchingRequest(
-    _id,
+    // _id,
+    matchingPostId,
     price,
     location,
     locationDetail,
@@ -79,7 +80,8 @@ class MatchingRequestService {
   ) {
     const updateMatchingRequest = await MatchingRequest.findOneAndUpdate(
       {
-        user: _id,
+        // user: _id,
+        _id: matchingPostId,
       },
       {
         price,
@@ -99,10 +101,11 @@ class MatchingRequestService {
     return updateMatchingRequest;
   }
 
-  async removeMatchingRequest(_id) {
+  async removeMatchingRequest(matchingPostId) {
     const removeMatchingRequest = await MatchingRequest.updateOne(
       {
-        user: _id,
+        // user: _id,
+        _id: matchingPostId,
       },
       {
         deletedAt: Date.now(),

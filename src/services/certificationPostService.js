@@ -294,13 +294,21 @@ class CertificationPostService {
   }
 
   // 인증글 수정
-  updateCertificationPost(_id, Data) {
+  updateCertificationPost(
+    certificationPostId,
+    certificationImg,
+    sublocation,
+    postText,
+  ) {
     const updatePost = CertificationPost.findOneAndUpdate(
       {
-        _id: _id,
+        // _id: _id,
+        _id: certificationPostId,
       },
       {
-        Data,
+        certificationImg,
+        sublocation,
+        postText,
       },
       { new: true },
     );
@@ -331,15 +339,16 @@ class CertificationPostService {
 
   // 리뷰 수정
   // 생성 과정과 동일
-  putCertificationPostReview(_id, matchingPost, review) {
-    const updatedReview = CertificationPost.findOneAndUpdate(
+  putCertificationPostReview(certificationPostId, review) {
+    const updatedReview = CertificationPost.updateOne(
       {
-        matchingPost: _id,
+        // matchingPost: _id,
+        _id: certificationPostId,
       },
       {
         review,
       },
-      { new: true },
+      // { new: true },
     );
     if (!updatedReview) {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);

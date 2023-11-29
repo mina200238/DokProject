@@ -39,7 +39,8 @@ const matchingRequest = async (req, res, next) => {
 // 매칭글 수정하기
 const updateMatchingRequest = async (req, res, next) => {
   try {
-    const _id = req._id;
+    // const _id = req._id;
+    const { matchingPostId } = req.params;
     const {
       price,
       location,
@@ -50,7 +51,8 @@ const updateMatchingRequest = async (req, res, next) => {
     } = req.body;
     const updatedMatchingRequest =
       await MatchingRequestService.postMatchingRequest(
-        _id,
+        // _id,
+        matchingPostId,
         price,
         location,
         locationDetail,
@@ -69,9 +71,10 @@ const updateMatchingRequest = async (req, res, next) => {
 // 사실은 put. deletedAt에 Date를 찍어준다.
 const removeMatchingRequest = async (req, res, next) => {
   try {
-    const _id = req._id;
+    // const _id = req._id;
+    const { matchingPostId } = req.params;
     const removeMatchingRequest =
-      await MatchingRequestService.deleteMatchingRequest(_id);
+      await MatchingRequestService.deleteMatchingRequest(matchingPostId);
 
     res.status(200).json(removeMatchingRequest);
   } catch (err) {
