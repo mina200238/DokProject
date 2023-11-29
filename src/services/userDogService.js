@@ -7,7 +7,7 @@ async function getUserDogByUserId(_id) {
 
 async function createUserDog(userDogRequest) {
   const userDog = new UserDog({
-    //user: userDogRequest.getUserId(),
+    user: userDogRequest.getUserId(),
     dogName: userDogRequest.getDogName(),
     dogImg: userDogRequest.getDogImg(),
     birth: userDogRequest.getBirth(),

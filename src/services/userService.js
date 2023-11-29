@@ -81,7 +81,7 @@ async function getUser(userId) {
 }
 
 async function getUserById(_id) {
-  const user = await User.findById(_id).exec();
+  const user = await User.findById(_id).populate('user').exec();
   if (falsey(user)) {
     throw new NotFoundError(`존재하지 않는 아이디입니다. inputId: ${_id}`);
   }
