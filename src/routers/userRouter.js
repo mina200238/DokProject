@@ -6,7 +6,11 @@ const jwtMiddleware = require('../middlewares/jwtMiddleware');
 const router = Router();
 
 router.get('/', userController.getUser);
-router.get('/myInfo', userController.getMyInfo);
+router.get(
+  '/myInfo',
+  jwtMiddleware.authenticateToken,
+  userController.getMyInfo,
+);
 router.get('/myDog', userDogController.getMyDog);
 
 router.post('/signUp', userController.signUp);
