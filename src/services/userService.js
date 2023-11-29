@@ -4,6 +4,7 @@ const User = require('../models/user/user');
 const PasswordEncoder = require('../utils/passwordEncoder');
 const JwtUtil = require('../utils/jwtUtil');
 const falsey = require('falsey');
+const { none } = require('../models/multer');
 
 async function createUser(userCreateRequest) {
   const encryptedPassword = await PasswordEncoder.hash(
@@ -47,6 +48,7 @@ async function signIn(res, userSignInRequest) {
     httpOnly: true,
     secure: false,
     maxAge: 2 * 60 * 60 * 1000,
+    sameSite: 'none',
   });
   return user;
 }
