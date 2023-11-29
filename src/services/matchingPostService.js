@@ -7,27 +7,36 @@ class MatchingPostService {
   //🚩날짜 검색 고침
   //전체 매칭 글 가져오기  -> 삭제된 게시글은 가져오지 않기 , 페이지네이션
 
-  async getMatchingPost(locationCode, walkingDate, page, perPage) {
+  async getMatchingPost(locationCode, walkingTime, page, perPage) {
     //if문 안에 각각의 메서드로 나눌것
-    //vm의 timezone 대한민국 표준시로..
 
     const currentDate = new Date();
-    const nextDay = new Date(walkingDate);
+    const nextDay = new Date(walkingTime);
     nextDay.setDate(nextDay.getDate() + 1);
 
     await MatchingPost.updateMany(
       {
-        $expr: {
-          $lt: [
-            {
-              $dateFromString: {
-                dateString: '$walkingDate',
-                format: '%Y-%m-%dT%H:%M:%S.%L',
-              },
+        $and: [
+          {
+            matchingStatus: 'progress',
+          },
+          {
+            matchingHandler: null,
+          },
+          {
+            $expr: {
+              $lt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                currentDate,
+              ],
             },
-            currentDate,
-          ],
-        },
+          },
+        ],
       },
       {
         $set: {
@@ -38,7 +47,7 @@ class MatchingPostService {
 
     //둘 다 있을 때
 
-    if (walkingDate && locationCode) {
+    if (walkingTime && locationCode) {
       const findPost = await MatchingPost.find({
         'location.code': {
           $regex: new RegExp(`${locationCode}`),
@@ -53,7 +62,7 @@ class MatchingPostService {
                     format: '%Y-%m-%dT%H:%M:%S.%L',
                   },
                 },
-                new Date(walkingDate),
+                new Date(walkingTime),
               ],
             },
             {
@@ -82,7 +91,7 @@ class MatchingPostService {
       return [findPost.length, findPost];
     }
 
-    if (!walkingDate && locationCode) {
+    if (!walkingTime && locationCode) {
       const findPost = await MatchingPost.find({
         'location.code': {
           $regex: new RegExp(`${locationCode}`),
@@ -100,7 +109,7 @@ class MatchingPostService {
       return [findPost.length, findPost];
     }
 
-    if (!locationCode && walkingDate) {
+    if (!locationCode && walkingTime) {
       //date 검색
 
       const findPost = await MatchingPost.find({
@@ -114,7 +123,7 @@ class MatchingPostService {
                     format: '%Y-%m-%dT%H:%M:%S.%L',
                   },
                 },
-                new Date(walkingDate),
+                new Date(walkingTime),
               ],
             },
             {
@@ -144,7 +153,7 @@ class MatchingPostService {
     }
 
     //날짜 & 장소 둘 다 없을 때
-    if (!locationCode && !walkingDate) {
+    if (!locationCode && !walkingTime) {
       const findPost = await MatchingPost.find({ deletedAt: null })
         .skip(perPage * (page - 1))
         .limit(perPage)

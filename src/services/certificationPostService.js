@@ -11,17 +11,27 @@ class CertificationPostService {
 
     await MatchingPost.updateMany(
       {
-        $expr: {
-          $lt: [
-            {
-              $dateFromString: {
-                dateString: '$walkingDate',
-                format: '%Y-%m-%dT%H:%M:%S.%L',
-              },
+        $and: [
+          {
+            matchingStatus: 'progress',
+          },
+          {
+            matchingHandler: null,
+          },
+          {
+            $expr: {
+              $lt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                currentDate,
+              ],
             },
-            currentDate,
-          ],
-        },
+          },
+        ],
       },
       {
         $set: {
@@ -80,7 +90,16 @@ class CertificationPostService {
       })
         .skip(perPage * (page - 1))
         .limit(perPage)
-        .populate('matchingPost');
+        .populate('user')
+        .populate('matchingPost')
+        .populate({
+          path: 'matchingPost',
+          populate: { path: 'user' },
+        })
+        .populate({
+          path: 'matchingPost',
+          populate: { path: 'userDog' },
+        });
 
       if (!foundDocuments) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
@@ -111,7 +130,16 @@ class CertificationPostService {
       })
         .skip(perPage * (page - 1))
         .limit(perPage)
-        .populate('matchingPost');
+        .populate('user')
+        .populate('matchingPost')
+        .populate({
+          path: 'matchingPost',
+          populate: { path: 'user' },
+        })
+        .populate({
+          path: 'matchingPost',
+          populate: { path: 'userDog' },
+        });
 
       if (!foundDocuments) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
@@ -167,7 +195,16 @@ class CertificationPostService {
       })
         .skip(perPage * (page - 1))
         .limit(perPage)
-        .populate('matchingPost');
+        .populate('user')
+        .populate('matchingPost')
+        .populate({
+          path: 'matchingPost',
+          populate: { path: 'user' },
+        })
+        .populate({
+          path: 'matchingPost',
+          populate: { path: 'userDog' },
+        });
 
       if (!foundDocuments) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
@@ -197,7 +234,16 @@ class CertificationPostService {
       })
         .skip(perPage * (page - 1))
         .limit(perPage)
-        .populate('matchingPost');
+        .populate('user')
+        .populate('matchingPost')
+        .populate({
+          path: 'matchingPost',
+          populate: { path: 'user' },
+        })
+        .populate({
+          path: 'matchingPost',
+          populate: { path: 'userDog' },
+        });
 
       if (!foundDocuments) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);

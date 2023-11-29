@@ -7,12 +7,12 @@ const getMatchingPosts = async (req, res, next) => {
       page = 1,
       perPage = 3,
       locationCode = null,
-      walkingDate = null,
+      walkingTime = null,
     } = req.query;
 
     const findMatchingPosts = await MatchingPostService.getMatchingPost(
       locationCode,
-      walkingDate,
+      walkingTime,
       page,
       perPage,
     );
