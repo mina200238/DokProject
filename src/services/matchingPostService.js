@@ -9,6 +9,7 @@ class MatchingPostService {
 
   async getMatchingPost(locationCode, walkingDate, page, perPage) {
     //if문 안에 각각의 메서드로 나눌것
+    //vm의 timezone 대한민국 표준시로..
 
     const currentDate = new Date();
     const nextDay = new Date(walkingDate);

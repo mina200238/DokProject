@@ -1,6 +1,6 @@
-// const NotFoundError = require('../errors/notFoundError');
+const NotFoundError = require('../errors/notFoundError');
 const MatchingPost = require('../models/matchingPost/matchingPost');
-const Certification = require('../models/certificationPost/certificationPost');
+const CertificationPost = require('../models/certificationPost/certificationPost');
 // const MatchingHandlerRequest = require('../models/matchingHandlerRequest/matchingHandlerRequest');
 
 class MyPageService {
@@ -61,6 +61,9 @@ class MyPageService {
             matchingStatus: 'progress',
           },
           {
+            matchingHandler: null,
+          },
+          {
             $expr: {
               $lt: [
                 {
@@ -82,18 +85,33 @@ class MyPageService {
       },
     );
 
-    //인증글의 개수 세기
-    const myMatchingCount = await MatchingPost.find({}).count();
+    const result = await MatchingPost.aggregate([
+      {
+        $match: {
+          $and: [
+            { user: userId },
+            { matchingStatus: 'completed' },
+            { deletedAt: null },
+          ],
+        },
+      },
+      {
+        $project: { _id: 1 },
+      },
+    ]);
 
-    //내가 쓴 인증글 불러오기
+    console.log(result);
 
-    const myMatchingPosts = await MatchingPost.find({
-      user: userId,
-    })
-      .populate('user')
-      .populate('userDog');
+    //해당 matchingPost의 id를 가지고 있는 인증글 찾기
+    const foundDocuments = await CertificationPost.find({
+      matchingPost: { $in: result },
+    }).populate('matchingPost');
 
-    return [myMatchingCount, myMatchingPosts];
+    if (!foundDocuments) {
+      throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+    }
+
+    return [foundDocuments.length, foundDocuments];
   }
 
   //내 인증글 불러오기✅
