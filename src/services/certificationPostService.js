@@ -302,6 +302,7 @@ class CertificationPostService {
       {
         Data,
       },
+      { new: true },
     );
     if (!updatePost) {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
@@ -319,6 +320,7 @@ class CertificationPostService {
       {
         review,
       },
+      { new: true },
     );
     if (!newReview) {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
@@ -337,6 +339,7 @@ class CertificationPostService {
       {
         review,
       },
+      { new: true },
     );
     if (!updatedReview) {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
