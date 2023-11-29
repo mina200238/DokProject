@@ -19,11 +19,6 @@ class MainService {
       .populate('user')
       .populate('userDog'); //최신글 3개 성공
 
-    //4. 4. 후기 별점순 3개고른 후 sorting해서 보내기 .limit() -> 인덱싱 처리?
-    // // 역인덱스 생성
-
-    //.createIndex({ 'review.rating': 1 });
-
     // 쿼리 실행
     const topCertification = await Certification.find({
       review: { $not: { $eq: null } },

@@ -50,7 +50,7 @@ class CertificationPostService {
             $expr: {
               $and: [
                 {
-                  $gt: [
+                  $gte: [
                     {
                       $dateFromString: {
                         dateString: '$walkingDate',
@@ -158,7 +158,7 @@ class CertificationPostService {
             $expr: {
               $and: [
                 {
-                  $gt: [
+                  $gte: [
                     {
                       $dateFromString: {
                         dateString: '$walkingDate',
