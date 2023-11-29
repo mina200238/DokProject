@@ -4,31 +4,69 @@ const MatchingPostComment = require('../models/matchingPostComment/matchingPostC
 const MatchingHandlerRequest = require('../models/matchingHandlerRequest/matchingHandlerRequest');
 
 class MatchingPostService {
-  //🚩날짜 검색 고치는중...
+  //🚩날짜 검색 고침
   //전체 매칭 글 가져오기  -> 삭제된 게시글은 가져오지 않기 , 페이지네이션
 
   async getMatchingPost(locationCode, walkingDate, page, perPage) {
     //if문 안에 각각의 메서드로 나눌것
-    const date = new Date();
+
+    const currentDate = new Date();
+    const nextDay = new Date(walkingDate);
+    nextDay.setDate(nextDay.getDate() + 1);
 
     await MatchingPost.updateMany(
-      { walkingDate: { $lt: date } },
-      { matchingStatus: 'failed' },
+      {
+        $expr: {
+          $lt: [
+            {
+              $dateFromString: {
+                dateString: '$walkingDate',
+                format: '%Y-%m-%dT%H:%M:%S.%L',
+              },
+            },
+            currentDate,
+          ],
+        },
+      },
+      {
+        $set: {
+          matchingStatus: 'failed', // 변경하고자 하는 값으로 설정
+        },
+      },
     );
 
     //둘 다 있을 때
 
     if (walkingDate && locationCode) {
-      const walkingDateObj = new Date(walkingDate);
-
-      console.log(walkingDateObj);
       const findPost = await MatchingPost.find({
         'location.code': {
           $regex: new RegExp(`${locationCode}`),
         },
-        walkingDate: {
-          $gte: walkingDateObj,
-          $lt: new Date(walkingDateObj.getTime() + 24 * 60 * 60 * 1000),
+        $expr: {
+          $and: [
+            {
+              $gt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                new Date(walkingDate),
+              ],
+            },
+            {
+              $lt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                nextDay,
+              ],
+            },
+          ],
         },
         deletedAt: null,
       })
@@ -40,26 +78,8 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return;
+      return findPost;
     }
-
-    // const findPost = await MatchingPost.find({
-    //   'location.code': {
-    //     $regex: new RegExp(`${locationCode}`),
-    //   },
-    //   walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
-    //   deletedAt: null,
-    // })
-    // .skip(perPage * (page - 1))
-    // .limit(perPage)
-    // .populate('user')
-    // .populate('userDog');
-
-    //   if (!findPost) {
-    //     throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
-    //   }
-    //   return findPost;
-    // }
 
     if (!walkingDate && locationCode) {
       const findPost = await MatchingPost.find({
@@ -83,7 +103,32 @@ class MatchingPostService {
       //date 검색
 
       const findPost = await MatchingPost.find({
-        walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
+        $expr: {
+          $and: [
+            {
+              $gt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                new Date(walkingDate),
+              ],
+            },
+            {
+              $lt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                nextDay,
+              ],
+            },
+          ],
+        },
         deletedAt: null,
       })
         .skip(perPage * (page - 1))
@@ -97,6 +142,7 @@ class MatchingPostService {
       return findPost;
     }
 
+    //날짜 & 장소 둘 다 없을 때
     if (!locationCode && !walkingDate) {
       const findPost = await MatchingPost.find({ deletedAt: null })
         .skip(perPage * (page - 1))

@@ -5,7 +5,7 @@ const getCertificationPosts = async (req, res, next) => {
   try {
     const {
       page = 1,
-      perPage = 3,
+      perPage = 9,
       locationCode = null,
       walkingDate = null,
     } = req.query;

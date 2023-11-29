@@ -4,11 +4,30 @@ const MatchingPost = require('../models/matchingPost/matchingPost');
 class CertificationPostService {
   async getCertificationPosts(page, perPage, locationCode, walkingDate) {
     //인증 검색 할 때마다, 날짜 지난거는 'failed'처리
-    const date = new Date();
+
+    const currentDate = new Date();
+    const nextDay = new Date(walkingDate);
+    nextDay.setDate(nextDay.getDate() + 1);
 
     await MatchingPost.updateMany(
-      { walkingDate: { $lt: date } },
-      { matchingStatus: 'failed' },
+      {
+        $expr: {
+          $lt: [
+            {
+              $dateFromString: {
+                dateString: '$walkingDate',
+                format: '%Y-%m-%dT%H:%M:%S.%L',
+              },
+            },
+            currentDate,
+          ],
+        },
+      },
+      {
+        $set: {
+          matchingStatus: 'failed', // 변경하고자 하는 값으로 설정
+        },
+      },
     );
 
     //🙄locationCode랑 walkingDate 둘 다 있을 때
@@ -18,7 +37,32 @@ class CertificationPostService {
       const result = await MatchingPost.aggregate([
         {
           $match: {
-            walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
+            $expr: {
+              $and: [
+                {
+                  $gt: [
+                    {
+                      $dateFromString: {
+                        dateString: '$walkingDate',
+                        format: '%Y-%m-%dT%H:%M:%S.%L',
+                      },
+                    },
+                    new Date(walkingDate),
+                  ],
+                },
+                {
+                  $lt: [
+                    {
+                      $dateFromString: {
+                        dateString: '$walkingDate',
+                        format: '%Y-%m-%dT%H:%M:%S.%L',
+                      },
+                    },
+                    nextDay,
+                  ],
+                },
+              ],
+            },
             'location.code': {
               $regex: new RegExp(`${locationCode}`),
             },
@@ -83,7 +127,32 @@ class CertificationPostService {
       const result = await MatchingPost.aggregate([
         {
           $match: {
-            walkingDate: { $gte: walkingDate, $lt: walkingDate + 1 },
+            $expr: {
+              $and: [
+                {
+                  $gt: [
+                    {
+                      $dateFromString: {
+                        dateString: '$walkingDate',
+                        format: '%Y-%m-%dT%H:%M:%S.%L',
+                      },
+                    },
+                    new Date(walkingDate),
+                  ],
+                },
+                {
+                  $lt: [
+                    {
+                      $dateFromString: {
+                        dateString: '$walkingDate',
+                        format: '%Y-%m-%dT%H:%M:%S.%L',
+                      },
+                    },
+                    nextDay,
+                  ],
+                },
+              ],
+            },
             deletedAt: null,
           },
         },
