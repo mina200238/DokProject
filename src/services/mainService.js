@@ -11,7 +11,7 @@ class MainService {
     const matchingCount = await MatchingPost.find({}).count(); //6개 성공
 
     //2. 랜덤 6마리 강아지 정보 불러오기
-    const randomDogInfo = await UserDog.aggregate([{ $sample: { size: 3 } }]); //강아지 3마리 성공
+    const randomDogInfo = await UserDog.aggregate([{ $sample: { size: 6 } }]); //강아지 3마리 성공
 
     //3. 오늘의 매칭(최신 3개만 불러오기)  .limit(3)
     const latestMatchingPost = await MatchingPost.find({})
