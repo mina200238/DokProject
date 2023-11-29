@@ -4,8 +4,7 @@ const {
   getCertificationPostDetails,
   postCertificationPosts,
   putCertificationPosts,
-  postCertificationPostReviews,
-  putCertificationPostReviews,
+  postPutCertificationPostReviews,
   // 검색
 } = require('../controllers/certificationPostController');
 // const jwtMiddleware = require('../middlewares/jwtMiddleware');
@@ -27,16 +26,10 @@ router.put(
   // jwtMiddleware.authenticateToken,
   putCertificationPosts,
 );
-// 리뷰 생성
+// 리뷰 생성 및 수정
 router.put(
   '/newCertificationPostReview/:certificationPostId',
-  postCertificationPostReviews,
-);
-// 리뷰 수정
-router.put(
-  '/certificationPostReview/:certificationPostId',
-  // jwtMiddleware.authenticateToken,
-  putCertificationPostReviews,
+  postPutCertificationPostReviews,
 );
 
 module.exports = router;

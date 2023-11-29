@@ -78,30 +78,14 @@ const putCertificationPosts = async (req, res, next) => {
   }
 };
 
-// 리뷰 생성
-const postCertificationPostReviews = async (req, res, next) => {
-  try {
-    const { certificationPostId } = req.params;
-    const { review } = req.body;
-    const newReview =
-      await CertificationPostService.postCertificationPostReview(
-        certificationPostId,
-        review,
-      );
-    res.status(200).json(newReview);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// 리뷰 수정
-const putCertificationPostReviews = async (req, res, next) => {
+// 리뷰 생성 및수정
+const postPutCertificationPostReviews = async (req, res, next) => {
   try {
     // const _id = req._id;
     const { certificationPostId } = req.params;
     const { review } = req.body;
     const newReview =
-      await CertificationPostService.postCertificationPostReview(
+      await CertificationPostService.postPutCertificationPostReview(
         // _id,
         certificationPostId,
         review,
@@ -118,6 +102,5 @@ module.exports = {
   getCertificationPostDetails,
   postCertificationPosts,
   putCertificationPosts,
-  postCertificationPostReviews,
-  putCertificationPostReviews,
+  postPutCertificationPostReviews,
 };

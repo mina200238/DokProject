@@ -319,8 +319,8 @@ class CertificationPostService {
     return updatePost;
   }
 
-  // 리뷰 생성
-  postCertificationPostReview(certificationPostId, review) {
+  // 리뷰 생성 및 수정
+  postPutCertificationPostReview(certificationPostId, review) {
     const newReview = CertificationPost.findOneAndUpdate(
       {
         _id: certificationPostId,
@@ -335,26 +335,6 @@ class CertificationPostService {
     }
 
     return newReview;
-  }
-
-  // 리뷰 수정
-  // 생성 과정과 동일
-  putCertificationPostReview(certificationPostId, review) {
-    const updatedReview = CertificationPost.updateOne(
-      {
-        // matchingPost: _id,
-        _id: certificationPostId,
-      },
-      {
-        review,
-      },
-      // { new: true },
-    );
-    if (!updatedReview) {
-      throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
-    }
-
-    return updatedReview;
   }
 }
 
