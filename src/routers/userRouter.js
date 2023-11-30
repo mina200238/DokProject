@@ -11,7 +11,11 @@ router.get(
   jwtMiddleware.authenticateToken,
   userController.getMyInfo,
 );
-router.get('/myDog', userDogController.getMyDog);
+router.get(
+  '/myDog',
+  jwtMiddleware.authenticateToken,
+  userDogController.getMyDog,
+);
 
 router.post('/signUp', userController.signUp);
 router.post('/signIn', userController.signIn);

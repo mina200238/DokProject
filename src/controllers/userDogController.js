@@ -27,7 +27,7 @@ async function createUserDog(req, res, next) {
 }
 
 async function getMyDog(req, res, next) {
-  const _id = req.params._id;
+  const _id = req._id;
   try {
     const user = await userService.getUserById(_id);
     const userDog = await userDogService.getUserDogByUserId(user);
