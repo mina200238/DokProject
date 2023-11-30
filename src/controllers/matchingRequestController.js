@@ -74,7 +74,7 @@ const removeMatchingRequest = async (req, res, next) => {
     const _id = req._id;
     const { matchingPostId } = req.params;
     const removeMatchingRequest =
-      await MatchingRequestService.deleteMatchingRequest(_id, matchingPostId);
+      await MatchingRequestService.removeMatchingRequest(_id, matchingPostId);
 
     res.status(200).json(removeMatchingRequest);
   } catch (err) {
