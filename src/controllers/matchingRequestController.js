@@ -40,6 +40,7 @@ const matchingRequest = async (req, res, next) => {
 const updateMatchingRequest = async (req, res, next) => {
   try {
     const _id = req._id;
+    const { matchingPostId } = req.params;
     const {
       price,
       location,
@@ -51,6 +52,7 @@ const updateMatchingRequest = async (req, res, next) => {
     const updatedMatchingRequest =
       await MatchingRequestService.postMatchingRequest(
         _id,
+        matchingPostId,
         price,
         location,
         locationDetail,
@@ -70,8 +72,9 @@ const updateMatchingRequest = async (req, res, next) => {
 const removeMatchingRequest = async (req, res, next) => {
   try {
     const _id = req._id;
+    const { matchingPostId } = req.params;
     const removeMatchingRequest =
-      await MatchingRequestService.deleteMatchingRequest(_id);
+      await MatchingRequestService.deleteMatchingRequest(_id, matchingPostId);
 
     res.status(200).json(removeMatchingRequest);
   } catch (err) {

@@ -23,7 +23,7 @@ router.get('/allCertificationPost', getCertificationPosts);
 router.get('/certificationPostDetails/:postId', getCertificationPostDetails);
 // 인증글 수정
 router.put(
-  '/certificationPost',
+  '/certificationPost/:certificationPostId',
   jwtMiddleware.authenticateToken,
   putCertificationPosts,
 );

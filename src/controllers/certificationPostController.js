@@ -62,9 +62,11 @@ const postCertificationPosts = async (req, res, next) => {
 const putCertificationPosts = async (req, res, next) => {
   try {
     const _id = req._id;
+    const { certificationPostId } = req.params;
     const { certificationImg, sublocation, postText, review } = req.body;
     const newPost = await CertificationPostService.updateCertificationPost(
       _id,
+      certificationPostId,
       certificationImg,
       sublocation,
       postText,

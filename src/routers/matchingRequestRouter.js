@@ -25,13 +25,13 @@ router.post(
 );
 // 매칭글 수정하기
 router.put(
-  '/newMatchingRequest',
+  '/newMatchingRequest/:matchingPostId',
   jwtMiddleware.authenticateToken,
   updateMatchingRequest,
 );
 // 매칭글 삭제하기
 router.put(
-  '/noMatchingRequest',
+  '/noMatchingRequest/:matchingPostId',
   jwtMiddleware.authenticateToken,
   removeMatchingRequest,
 );

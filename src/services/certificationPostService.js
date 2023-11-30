@@ -297,9 +297,16 @@ class CertificationPostService {
   }
 
   // 인증글 수정
-  updateCertificationPost(_id, certificationImg, sublocation, postText) {
+  updateCertificationPost(
+    _id,
+    certificationPostId,
+    certificationImg,
+    sublocation,
+    postText,
+  ) {
     const updatePost = CertificationPost.findOneAndUpdate(
       {
+        _id: certificationPostId,
         user: _id,
       },
       {
