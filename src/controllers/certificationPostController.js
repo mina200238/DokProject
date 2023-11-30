@@ -7,14 +7,14 @@ const getCertificationPosts = async (req, res, next) => {
       page = 1,
       perPage = 9,
       locationCode = null,
-      walkingDate = null,
+      walkingTime = null,
     } = req.query;
     const findCertificationPosts =
       await CertificationPostService.getCertificationPosts(
         page,
         perPage,
         locationCode,
-        walkingDate,
+        walkingTime,
       );
 
     res.status(200).json(findCertificationPosts);
