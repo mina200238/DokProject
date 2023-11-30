@@ -7,12 +7,13 @@ const {
   postPutCertificationPostReviews,
   // 검색
 } = require('../controllers/certificationPostController');
-// const jwtMiddleware = require('../middlewares/jwtMiddleware');
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
 const router = Router();
 
 // 인증글 생성
 router.post(
-  '/newCertificationPost/:userId/:matchingPost',
+  '/newCertificationPost/:matchingPost',
+  jwtMiddleware.authenticateToken,
   postCertificationPosts,
 );
 // 전체 인증글 조회
@@ -22,13 +23,14 @@ router.get('/allCertificationPost', getCertificationPosts);
 router.get('/certificationPostDetails/:postId', getCertificationPostDetails);
 // 인증글 수정
 router.put(
-  '/certificationPost/:certificationPostId',
-  // jwtMiddleware.authenticateToken,
+  '/certificationPost',
+  jwtMiddleware.authenticateToken,
   putCertificationPosts,
 );
 // 리뷰 생성 및 수정
 router.put(
-  '/newCertificationPostReview/:certificationPostId',
+  '/newCertificationPostReview',
+  jwtMiddleware.authenticateToken,
   postPutCertificationPostReviews,
 );
 

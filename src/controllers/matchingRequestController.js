@@ -2,14 +2,14 @@ const MatchingRequestService = require('../services/matchingRequestService');
 
 // 강아지 정보 불러오기
 const getDogInfo = async (req, res, next) => {
-  const { userId } = req.params;
-  const DogInfo = await MatchingRequestService.getUserDogInfo(userId);
+  const _id = req._id;
+  const DogInfo = await MatchingRequestService.getUserDogInfo(_id);
   res.status(200).json(DogInfo);
 };
 // 매칭글 신청하기
 const matchingRequest = async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const _id = req._id;
     const {
       userDog,
       price,
@@ -20,7 +20,7 @@ const matchingRequest = async (req, res, next) => {
       requestText,
     } = req.body;
     const newMatchingRequest = await MatchingRequestService.postMatchingRequest(
-      userId,
+      _id,
       userDog,
       price,
       location,
@@ -39,8 +39,7 @@ const matchingRequest = async (req, res, next) => {
 // 매칭글 수정하기
 const updateMatchingRequest = async (req, res, next) => {
   try {
-    // const _id = req._id;
-    const { matchingPostId } = req.params;
+    const _id = req._id;
     const {
       price,
       location,
@@ -51,8 +50,7 @@ const updateMatchingRequest = async (req, res, next) => {
     } = req.body;
     const updatedMatchingRequest =
       await MatchingRequestService.postMatchingRequest(
-        // _id,
-        matchingPostId,
+        _id,
         price,
         location,
         locationDetail,
@@ -71,10 +69,9 @@ const updateMatchingRequest = async (req, res, next) => {
 // 사실은 put. deletedAt에 Date를 찍어준다.
 const removeMatchingRequest = async (req, res, next) => {
   try {
-    // const _id = req._id;
-    const { matchingPostId } = req.params;
+    const _id = req._id;
     const removeMatchingRequest =
-      await MatchingRequestService.deleteMatchingRequest(matchingPostId);
+      await MatchingRequestService.deleteMatchingRequest(_id);
 
     res.status(200).json(removeMatchingRequest);
   } catch (err) {

@@ -4,8 +4,8 @@ const UserDog = require('../models/user/userDog');
 
 class MatchingRequestService {
   // 강아지 정보 불러오기
-  async getUserDogInfo(userId) {
-    const findUserDog = await UserDog.find({ user: userId });
+  async getUserDogInfo(_id) {
+    const findUserDog = await UserDog.find({ user: _id });
     // .map((userDog) => userDog._id,);
     // console.log(findUserDog);
     if (!findUserDog) {
@@ -16,7 +16,7 @@ class MatchingRequestService {
   }
   // 매칭글 작성하기
   async postMatchingRequest(
-    userId,
+    _id,
     userDog,
     price,
     location,
@@ -26,7 +26,7 @@ class MatchingRequestService {
     requestText,
   ) {
     const newMatchingPost = await MatchingRequest.create({
-      user: userId,
+      user: _id,
       userDog,
       price,
       location,
@@ -69,8 +69,7 @@ class MatchingRequestService {
   }
   // 매칭글 수정하기
   async putMatchingRequest(
-    // _id,
-    matchingPostId,
+    _id,
     price,
     location,
     locationDetail,
@@ -80,8 +79,7 @@ class MatchingRequestService {
   ) {
     const updateMatchingRequest = await MatchingRequest.findOneAndUpdate(
       {
-        // user: _id,
-        _id: matchingPostId,
+        user: _id,
       },
       {
         price,
@@ -101,11 +99,10 @@ class MatchingRequestService {
     return updateMatchingRequest;
   }
 
-  async removeMatchingRequest(matchingPostId) {
+  async removeMatchingRequest(_id) {
     const removeMatchingRequest = await MatchingRequest.updateOne(
       {
-        // user: _id,
-        _id: matchingPostId,
+        user: _id,
       },
       {
         deletedAt: Date.now(),

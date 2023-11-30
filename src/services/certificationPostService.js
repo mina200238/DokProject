@@ -276,20 +276,18 @@ class CertificationPostService {
 
   // 인증글 생성
   postCertificationPost(
-    userId,
+    _id,
     matchingPost,
     certificationImg,
     sublocation,
     postText,
-    deletedAt,
   ) {
     const newCertificationPost = CertificationPost.create({
-      user: userId,
+      user: _id,
       matchingPost: matchingPost,
       certificationImg,
       sublocation,
       postText,
-      deletedAt,
     });
     if (!newCertificationPost) {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
@@ -299,16 +297,10 @@ class CertificationPostService {
   }
 
   // 인증글 수정
-  updateCertificationPost(
-    certificationPostId,
-    certificationImg,
-    sublocation,
-    postText,
-  ) {
+  updateCertificationPost(_id, certificationImg, sublocation, postText) {
     const updatePost = CertificationPost.findOneAndUpdate(
       {
-        // _id: _id,
-        _id: certificationPostId,
+        user: _id,
       },
       {
         certificationImg,
@@ -325,10 +317,10 @@ class CertificationPostService {
   }
 
   // 리뷰 생성 및 수정
-  postPutCertificationPostReview(certificationPostId, review) {
+  postPutCertificationPostReview(_id, review) {
     const newReview = CertificationPost.findOneAndUpdate(
       {
-        _id: certificationPostId,
+        user: _id,
       },
       {
         review,
