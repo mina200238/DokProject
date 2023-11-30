@@ -10,7 +10,11 @@ const certificationSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'MatchingPost',
     },
-    certificationImg: [String],
+    certificationImg: {
+      type: Schema.Types.ObjectId,
+      ref: 'Img',
+      required: false,
+    },
     sublocation: {
       type: String,
     },

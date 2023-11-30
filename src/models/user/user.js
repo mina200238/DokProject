@@ -1,4 +1,5 @@
 const { model, Schema } = require('mongoose');
+const { schema } = require('./userDog');
 
 const userSchema = new Schema({
   userId: {
@@ -37,7 +38,8 @@ const userSchema = new Schema({
     default: false,
   },
   userImg: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'Img',
     required: false,
   },
   deletedAt: {
