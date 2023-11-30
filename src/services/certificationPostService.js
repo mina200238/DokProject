@@ -317,10 +317,11 @@ class CertificationPostService {
   }
 
   // 리뷰 생성 및 수정
-  postPutCertificationPostReview(_id, review) {
+  postPutCertificationPostReview(_id, certificationPostId, review) {
     const newReview = CertificationPost.findOneAndUpdate(
       {
         user: _id,
+        matchingPost: certificationPostId,
       },
       {
         review,

@@ -29,7 +29,7 @@ router.put(
 );
 // 리뷰 생성 및 수정
 router.put(
-  '/newCertificationPostReview',
+  '/newCertificationPostReview/:certificationPostId',
   jwtMiddleware.authenticateToken,
   postPutCertificationPostReviews,
 );
