@@ -50,6 +50,40 @@ class MatchingPostService {
     //둘 다 있을 때
 
     if (walkingTime && locationCode) {
+      //해당 데이터의 개수세기
+      const countPost = await MatchingPost.find({
+        'location.code': {
+          $regex: new RegExp(`${locationCode}`),
+        },
+        $expr: {
+          $and: [
+            {
+              $gt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                new Date(walkingTime),
+              ],
+            },
+            {
+              $lt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                nextDay,
+              ],
+            },
+          ],
+        },
+        deletedAt: null,
+      }).count();
+
       const findPost = await MatchingPost.find({
         'location.code': {
           $regex: new RegExp(`${locationCode}`),
@@ -90,10 +124,17 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return [findPost.length, findPost];
+      return [countPost, findPost];
     }
 
     if (!walkingTime && locationCode) {
+      const countPost = await MatchingPost.find({
+        'location.code': {
+          $regex: new RegExp(`${locationCode}`),
+        },
+        deletedAt: null,
+      }).count();
+
       const findPost = await MatchingPost.find({
         'location.code': {
           $regex: new RegExp(`${locationCode}`),
@@ -108,11 +149,40 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return [findPost.length, findPost];
+      return [countPost, findPost];
     }
 
     if (!locationCode && walkingTime) {
       //date 검색
+      const countPost = await MatchingPost.find({
+        $expr: {
+          $and: [
+            {
+              $gt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                new Date(walkingTime),
+              ],
+            },
+            {
+              $lt: [
+                {
+                  $dateFromString: {
+                    dateString: '$walkingDate',
+                    format: '%Y-%m-%dT%H:%M:%S.%L',
+                  },
+                },
+                nextDay,
+              ],
+            },
+          ],
+        },
+        deletedAt: null,
+      }).count();
 
       const findPost = await MatchingPost.find({
         $expr: {
@@ -151,11 +221,13 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return [findPost.length, findPost];
+      return [countPost, findPost];
     }
 
     //날짜 & 장소 둘 다 없을 때
     if (!locationCode && !walkingTime) {
+      const countPost = await MatchingPost.find({ deletedAt: null }).count();
+
       const findPost = await MatchingPost.find({ deletedAt: null })
         .sort({ createdAt: -1 })
         .skip(perPage * (page - 1))
@@ -166,7 +238,7 @@ class MatchingPostService {
       if (!findPost) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
-      return [findPost.length, findPost];
+      return [countPost, findPost];
     }
   }
 
@@ -226,9 +298,7 @@ class MatchingPostService {
       },
       { new: true },
     );
-    if (!updateComment) {
-      throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
-    }
+
     return updateComment;
   }
 
