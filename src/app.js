@@ -10,15 +10,12 @@ require('dotenv').config();
 const app = express();
 
 const userRouter = require('./routers/userRouter');
-
-require('dotenv').config();
-
 const matchingPostRouter = require('./routers/matchingPostRouter.js');
 const certificationPostRouter = require('./routers/certificationRouter');
-const errorHandler = require('./middlewares/errorHandler');
 const matchingRequestRouter = require('./routers/matchingRequestRouter.js');
 const mainRouter = require('./routers/mainRouter.js');
 const myPageRouter = require('./routers/myPageRouter.js');
+const errorHandler = require('./middlewares/errorHandler');
 
 mongoose
   .connect(process.env.MONGO_DB_URL)

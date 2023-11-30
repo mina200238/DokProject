@@ -47,7 +47,7 @@ async function signIn(res, userSignInRequest) {
   res.cookie('token', token, {
     httpOnly: true,
     secure: true,
-    maxAge: 2 * 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000,
     sameSite: 'none',
   });
   res.header('Bearer', ` ${token}`);
@@ -57,6 +57,23 @@ async function signIn(res, userSignInRequest) {
 async function signOut(res) {
   res.clearCookie('token');
   return res.status(200).json({ message: '로그아웃 되었습니다.' });
+}
+
+async function deleteUser(_id, userDeleteRequest) {
+  try {
+    const user = await User.findById(_id).exec();
+    if (!user) {
+      throw new NotFoundError(`존재하지 않는 아이디입니다. inputId: ${_id}`);
+    }
+    if (!userDeleteRequest.getDeletedAt()) {
+      user.deletedAt = new Date();
+      await user.save();
+    }
+    return user;
+  } catch (error) {
+    console.error('Error deleting user:', error.message);
+    throw error;
+  }
 }
 
 async function editUserInfo(_id, userUpdateRequest) {
@@ -102,4 +119,5 @@ module.exports = {
   getUser,
   getUserById,
   signOut,
+  deleteUser,
 };

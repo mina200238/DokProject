@@ -1,6 +1,7 @@
 const UserCreateRequest = require('../dtos/users/userCreateRequest');
 const UserSignInRequest = require('../dtos/users/userSignInRequest');
 const UserUpdateRequest = require('../dtos/users/userUpdateRequest');
+const UserDeleteRequest = require('../dtos/users/userDeleteRequest');
 const MyInfoResponse = require('../dtos/users/myInfoResponse');
 const userService = require('../services/userService');
 const userDogService = require('../services/userDogService');
@@ -53,6 +54,17 @@ async function signOut(req, res, next) {
   }
 }
 
+async function deleteUser(req, res, next) {
+  const _id = req._id;
+  try {
+    const userDeleteRequest = new UserDeleteRequest(req.body);
+    const user = await userService.deleteUser(_id, userDeleteRequest);
+    res.status(201).json(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function editUserInfo(req, res, next) {
   const _id = req._id;
   try {
@@ -88,4 +100,12 @@ async function getMyInfo(req, res, next) {
   }
 }
 
-module.exports = { signUp, signIn, signOut, editUserInfo, getUser, getMyInfo };
+module.exports = {
+  signUp,
+  signIn,
+  signOut,
+  editUserInfo,
+  getUser,
+  getMyInfo,
+  deleteUser,
+};
