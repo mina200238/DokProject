@@ -7,23 +7,27 @@ class MyPageService {
   //내가 쓴 매칭 포스트 글 불러오기✅
   async getMyMatchingPost(userId) {
     const currentDate = new Date();
+    const adjustedDate = new Date(currentDate.getTime() + 9 * 60 * 60 * 1000);
 
     await MatchingPost.updateMany(
       {
         $and: [
           {
-            matchingStatus: 'progress',
+            matchingStatus: 'process',
+          },
+          {
+            matchingHandler: null,
           },
           {
             $expr: {
-              $lt: [
+              $lte: [
                 {
                   $dateFromString: {
                     dateString: '$walkingDate',
                     format: '%Y-%m-%dT%H:%M:%S.%L',
                   },
                 },
-                currentDate,
+                adjustedDate,
               ],
             },
           },
@@ -37,7 +41,7 @@ class MyPageService {
     );
 
     //매칭 포스트의 개수 세기
-    const myMatchingCount = await MatchingPost.find({}).count();
+    const myMatchingCount = await MatchingPost.find({ user: userId }).count();
 
     //내가 쓴 매칭글 불러오기
 
@@ -57,26 +61,27 @@ class MyPageService {
   //내가 작성한 매칭 완료된 매칭 포스트 id들 중에서,  certification 에 해당 matchingPost id가 없을 경우
   async getUncertificatiedList(userId) {
     const currentDate = new Date();
+    const adjustedDate = new Date(currentDate.getTime() + 9 * 60 * 60 * 1000);
 
     await MatchingPost.updateMany(
       {
         $and: [
           {
-            matchingStatus: 'progress',
+            matchingStatus: 'process',
           },
           {
             matchingHandler: null,
           },
           {
             $expr: {
-              $lt: [
+              $lte: [
                 {
                   $dateFromString: {
                     dateString: '$walkingDate',
                     format: '%Y-%m-%dT%H:%M:%S.%L',
                   },
                 },
-                currentDate,
+                adjustedDate,
               ],
             },
           },
@@ -100,7 +105,7 @@ class MyPageService {
               format: '%Y-%m-%dT%H:%M:%S.%L',
             },
           },
-          currentDate,
+          adjustedDate,
         ],
       },
       matchingStatus: 'completed',

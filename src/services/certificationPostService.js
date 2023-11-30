@@ -6,6 +6,8 @@ class CertificationPostService {
     //인증 검색 할 때마다, 날짜 지난거는 'failed'처리
 
     const currentDate = new Date();
+    const adjustedDate = new Date(currentDate.getTime() + 9 * 60 * 60 * 1000);
+
     const nextDay = new Date(walkingTime);
     nextDay.setDate(nextDay.getDate() + 1);
 
@@ -13,21 +15,21 @@ class CertificationPostService {
       {
         $and: [
           {
-            matchingStatus: 'progress',
+            matchingStatus: 'process',
           },
           {
             matchingHandler: null,
           },
           {
             $expr: {
-              $lt: [
+              $lte: [
                 {
                   $dateFromString: {
                     dateString: '$walkingDate',
                     format: '%Y-%m-%dT%H:%M:%S.%L',
                   },
                 },
-                currentDate,
+                adjustedDate,
               ],
             },
           },

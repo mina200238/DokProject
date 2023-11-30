@@ -11,6 +11,8 @@ class MatchingPostService {
     //if문 안에 각각의 메서드로 나눌것
 
     const currentDate = new Date();
+    const adjustedDate = new Date(currentDate.getTime() + 9 * 60 * 60 * 1000);
+
     const nextDay = new Date(walkingTime);
     nextDay.setDate(nextDay.getDate() + 1);
 
@@ -18,21 +20,21 @@ class MatchingPostService {
       {
         $and: [
           {
-            matchingStatus: 'progress',
+            matchingStatus: 'process',
           },
           {
             matchingHandler: null,
           },
           {
             $expr: {
-              $lt: [
+              $lte: [
                 {
                   $dateFromString: {
                     dateString: '$walkingDate',
                     format: '%Y-%m-%dT%H:%M:%S.%L',
                   },
                 },
-                currentDate,
+                adjustedDate,
               ],
             },
           },
