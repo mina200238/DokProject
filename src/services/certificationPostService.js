@@ -236,6 +236,7 @@ class CertificationPostService {
       const foundDocuments = await CertificationPost.find({
         matchingPost: { $in: result },
       })
+        .sort({ createdAt: -1 })
         .skip(perPage * (page - 1))
         .limit(perPage)
         .populate('user')

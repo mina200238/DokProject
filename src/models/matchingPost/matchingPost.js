@@ -49,7 +49,7 @@ const MatchingPostSchema = new Schema(
 
     matchingStatus: {
       type: String,
-      default: 'in progress',
+      default: 'progress',
     },
 
     matchingHandler: {

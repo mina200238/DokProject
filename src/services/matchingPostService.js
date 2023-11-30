@@ -155,6 +155,7 @@ class MatchingPostService {
     //날짜 & 장소 둘 다 없을 때
     if (!locationCode && !walkingTime) {
       const findPost = await MatchingPost.find({ deletedAt: null })
+        .sort({ createdAt: -1 })
         .skip(perPage * (page - 1))
         .limit(perPage)
         .populate('user')
@@ -230,15 +231,40 @@ class MatchingPostService {
   }
 
   //댓글 삭제하기(댓글 진짜 삭제x -> deleted_at 찍히게)
+  //만약 부모댓글이 삭제되면, 해당 대댓글 모두 deletedAt이 찍히도록
+  //commentId를 지우려고 봤는데, 다른 comment에서 parentId로 있는거면? 그거 가지고있는 모든 comment에 deletedAt 찍기
+
   async deleteComment(commentId) {
-    const deleteComment = await MatchingPostComment.findOneAndUpdate(
-      { _id: commentId },
-      { deletedAt: new Date() },
-    );
-    if (!deleteComment) {
-      throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
+    //1. 다른 comment의 parentId로 있는지 확인
+
+    const findComment = await MatchingPostComment.find({
+      parentCommentId: commentId,
+    }).select({ _id: 1 });
+
+    console.log(findComment);
+
+    //2-1 부모아이디가 아님, 그냥 지우기
+    if (findComment.length === 0) {
+      const deleteComment = await MatchingPostComment.findOneAndUpdate(
+        { _id: commentId },
+        { deletedAt: new Date() },
+      );
+
+      return deleteComment;
+    } else {
+      //이쪽에서 문제생김
+      const deleteParentComment = await MatchingPostComment.findOneAndUpdate(
+        { _id: commentId },
+        { deletedAt: new Date() },
+      );
+      //부모 아이디임,  findComment의 목록에 있는 comment들도 deletedAt 처리할것
+      const deleteComment = await MatchingPostComment.updateMany(
+        { _id: { $in: findComment } },
+        { deletedAt: new Date() },
+      );
+
+      return [deleteParentComment, deleteComment];
     }
-    return deleteComment;
   }
 
   // 해당 게시글의 산책 요청 리스트 가져오기
