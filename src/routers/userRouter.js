@@ -19,7 +19,7 @@ router.get(
 
 router.post('/signUp', userController.signUp);
 router.post('/signIn', userController.signIn);
-
+router.post('/signOut', userController.signOut);
 router.patch(
   '/myInfo',
   jwtMiddleware.authenticateToken,

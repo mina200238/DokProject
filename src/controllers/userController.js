@@ -45,6 +45,14 @@ async function signIn(req, res, next) {
   }
 }
 
+async function signOut(req, res, next) {
+  try {
+    await userService.signOut(res);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function editUserInfo(req, res, next) {
   const _id = req._id;
   try {
@@ -80,4 +88,4 @@ async function getMyInfo(req, res, next) {
   }
 }
 
-module.exports = { signUp, signIn, editUserInfo, getUser, getMyInfo };
+module.exports = { signUp, signIn, signOut, editUserInfo, getUser, getMyInfo };

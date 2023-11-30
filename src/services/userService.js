@@ -54,6 +54,11 @@ async function signIn(res, userSignInRequest) {
   return user;
 }
 
+async function signOut(res) {
+  res.clearCookie('token');
+  return res.status(200).json({ message: '로그아웃 되었습니다.' });
+}
+
 async function editUserInfo(_id, userUpdateRequest) {
   const encryptedPassword = await PasswordEncoder.hash(
     userUpdateRequest.getPassword(),
@@ -90,4 +95,11 @@ async function getUserById(_id) {
   return user;
 }
 
-module.exports = { createUser, signIn, editUserInfo, getUser, getUserById };
+module.exports = {
+  createUser,
+  signIn,
+  editUserInfo,
+  getUser,
+  getUserById,
+  signOut,
+};
