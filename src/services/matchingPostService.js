@@ -204,7 +204,7 @@ class MatchingPostService {
       user,
       comment,
       parentCommentId,
-    }).populate(user);
+    });
 
     if (!postComment) {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
