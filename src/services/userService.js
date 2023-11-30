@@ -18,6 +18,7 @@ async function createUser(userCreateRequest) {
     nickname: userCreateRequest.getNickname(),
     phoneNumber: userCreateRequest.getPhoneNumber(),
     address: userCreateRequest.getAddress(),
+    userImg: userCreateRequest.getUserImg(),
     introduce: userCreateRequest.getIntroduce(),
     isCertificated: userCreateRequest.getIsCertificated(),
   });
@@ -60,6 +61,7 @@ async function editUserInfo(_id, userUpdateRequest) {
 
   const update = {
     name: userUpdateRequest.getName(),
+    userImg: userUpdateRequest.getUserImg(),
     nickname: userUpdateRequest.getNickname(),
     phoneNumber: userUpdateRequest.getPhoneNumber(),
     address: userUpdateRequest.getAddress(),

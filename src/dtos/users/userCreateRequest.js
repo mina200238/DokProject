@@ -14,6 +14,7 @@ class UserCreateRequest {
       text: '',
       code: '',
     },
+    userImg,
     introduce,
     isCertificated,
   ) {
@@ -25,6 +26,7 @@ class UserCreateRequest {
     this.nickname = nickname;
     this.phoneNumber = phoneNumber;
     this.address = address;
+    this.userImg = userImg;
     this.introduce = introduce;
     this.isCertificated = isCertificated;
   }
@@ -52,6 +54,10 @@ class UserCreateRequest {
 
   getAddress() {
     return this.address;
+  }
+
+  getUserImg() {
+    return this.userImg;
   }
 
   getIntroduce() {

@@ -36,6 +36,10 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  userImg: {
+    type: String,
+    required: false,
+  },
   deletedAt: {
     type: Date,
     default: null,
