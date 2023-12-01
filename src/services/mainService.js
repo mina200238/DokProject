@@ -26,7 +26,11 @@ class MainService {
       .sort({ 'review.rating': -1 })
       .limit(3)
       .populate('user')
-      .populate('matchingPost');
+      .populate('matchingPost')
+      .populate({
+        path: 'matchingPost',
+        populate: { path: 'userDog' },
+      });
 
     if (!randomDogInfo || !latestMatchingPost || !topCertification) {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
