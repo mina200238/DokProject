@@ -50,7 +50,7 @@ async function signIn(res, userSignInRequest) {
     maxAge: 24 * 60 * 60 * 1000,
     sameSite: 'none',
   });
-  res.header('Bearer', ` ${token}`);
+  //res.header('Bearer', ` ${token}`);
   return user;
 }
 
