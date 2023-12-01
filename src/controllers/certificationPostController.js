@@ -84,12 +84,11 @@ const postPutCertificationPostReviews = async (req, res, next) => {
   try {
     const _id = req._id;
     const { certificationPostId } = req.params;
-    const { matchingPost, review } = req.body;
+    const { review } = req.body;
     const newReview =
       await CertificationPostService.postPutCertificationPostReview(
         _id,
         certificationPostId,
-        matchingPost,
         review,
       );
 
