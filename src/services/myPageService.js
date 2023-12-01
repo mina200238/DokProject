@@ -128,10 +128,7 @@ class MyPageService {
           .populate('user')
           .populate('userDog');
 
-        uncertificatedMatchingarray.push(uncertificatedMatchingPost);
-      } else {
-        //해당 인증글이 있음 -> 인증글 정보 주기
-        certificatedArray.push(post);
+        uncertificatedMatchingarray.push(uncertificatedMatchingPost[0]);
       }
     }
 
