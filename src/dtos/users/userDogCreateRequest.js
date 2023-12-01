@@ -1,6 +1,15 @@
 //const { BadRequestError } = require('../../errors/badReqestError');
 class UserDogCreateRequest {
-  constructor(user, dogName, dogImg, birth, dogType, gender, personality) {
+  constructor(
+    user,
+    dogName,
+    dogImg,
+    birth,
+    dogType,
+    gender,
+    personality,
+    note,
+  ) {
     //this.validate(user, dogName, dogImg, birth, dogType, gender, personality);
     this.user = user;
     this.dogName = dogName;
@@ -8,6 +17,7 @@ class UserDogCreateRequest {
     this.birth = birth;
     this.dogType = dogType;
     this.gender = gender;
+    this.note = note;
     this.personality = personality;
   }
   getUserId() {
@@ -36,6 +46,9 @@ class UserDogCreateRequest {
 
   getPersonality() {
     return this.personality;
+  }
+  getNote() {
+    return this.note;
   }
 }
 

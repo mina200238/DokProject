@@ -5,7 +5,8 @@ const UserDogCreateRequest = require('../dtos/users/userDogCreateRequest');
 async function createUserDog(req, res, next) {
   const userId = req.query.userId;
   const _id = req._id;
-  const { dogName, dogImg, birth, dogType, gender, personality } = req.body;
+  const { dogName, dogImg, birth, dogType, gender, personality, note } =
+    req.body;
 
   try {
     const user = _id;
@@ -18,6 +19,7 @@ async function createUserDog(req, res, next) {
       dogType,
       gender,
       personality,
+      note,
     );
     const userDog = await userDogService.createUserDog(userDogRequest);
     res.status(201).json(userDog);

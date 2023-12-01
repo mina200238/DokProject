@@ -13,6 +13,7 @@ async function createUserDog(userDogRequest) {
     birth: userDogRequest.getBirth(),
     dogType: userDogRequest.getDogType(),
     gender: userDogRequest.getGender(),
+    note: userDogRequest.getNote(),
     personality: userDogRequest.getPersonality(),
   });
 
