@@ -16,6 +16,7 @@ class MainService {
     //3. 오늘의 매칭(최신 3개만 불러오기)  .limit(3)
     const latestMatchingPost = await MatchingPost.find({})
       .limit(3)
+      .sort({ createdAt: -1 })
       .populate('user')
       .populate('userDog'); //최신글 3개 성공
 
