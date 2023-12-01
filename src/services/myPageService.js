@@ -94,9 +94,9 @@ class MyPageService {
       },
     );
 
-    //내가 쓴 matchingPost 중에 매칭이 완료, 산책 날짜가 지남 , 삭제가 되지 않은 MatchingPost의 id값 가져오기
+    //내가(Handler) 지원했던 matchingPost 중에 매칭이 완료, 산책 날짜가 지남 , 삭제가 되지 않은 MatchingPost의 id값 가져오기
     const result = await MatchingPost.find({
-      user: userId,
+      matchingHandler: userId,
       $expr: {
         $lt: [
           {
@@ -112,21 +112,30 @@ class MyPageService {
       deletedAt: null,
     }).select({ _id: 1 });
 
-    //해당 matchingPost의 id를 가지고 있는 인증글 찾기
-    const foundDocuments = await CertificationPost.find({
-      matchingPost: { $in: result },
-    });
+    let uncertificatedMatchingarray = [];
+    let certificatedArray = [];
 
-    //없다면, 아직 인증글이 작성되지 않았으므로, 인증되지 않은 글의 matchingPost 데이터를 반환
-    if (foundDocuments.length === 0) {
-      const uncertificatedMatchingPost = await MatchingPost.find({
-        _id: result,
-      })
-        .populate('user')
-        .populate('userDog');
+    for (let i = 0; i < result.length; i++) {
+      const post = await CertificationPost.find({
+        matchingPost: result[i],
+      });
 
-      return [uncertificatedMatchingPost.length, uncertificatedMatchingPost];
+      //해당 인증글이 없음 -> 해당 매칭글 정보를 줘야함
+      if (!post || post.length === 0) {
+        const uncertificatedMatchingPost = await MatchingPost.find({
+          _id: { $in: result[i] },
+        })
+          .populate('user')
+          .populate('userDog');
+
+        uncertificatedMatchingarray.push(uncertificatedMatchingPost);
+      } else {
+        //해당 인증글이 있음 -> 인증글 정보 주기
+        certificatedArray.push(post);
+      }
     }
+
+    return [...uncertificatedMatchingarray];
   }
 
   //내 인증글 불러오기✅
