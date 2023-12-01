@@ -19,7 +19,7 @@ router.get(
 
 // 매칭 완료된 매칭 포스트 중에서, 인증글을 작성하지 않은 목록 가져오기
 router.get(
-  '/myCertification/:userId',
+  '/myCertification',
   jwtMiddleware.authenticateToken,
   getUncertificatiedList,
 );
