@@ -22,12 +22,12 @@ const uploadImage = async (req, res, next) => {
         throw new InternalServerError('Error uploading image.');
       }
 
-      const newImage = new Img({
-        user: _id,
-        imageURL: imageUrl,
-      });
-      const savedImage = await newImage.save();
-      savedImages.push(savedImage);
+      // const newImage = new Img({
+      //   user: _id,
+      //   imageURL: imageUrl,
+      // });
+      // //const savedImage = await newImage.save();
+      savedImages.push(imageUrl);
     }
 
     return res.status(200).send(savedImages);

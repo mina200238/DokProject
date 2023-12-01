@@ -11,8 +11,7 @@ const userDogSchema = new Schema({
     required: true,
   },
   dogImg: {
-    type: Schema.Types.ObjectId,
-    ref: 'Img',
+    type: String,
     required: false,
   },
   birth: {

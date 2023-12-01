@@ -38,8 +38,7 @@ const userSchema = new Schema({
     default: false,
   },
   userImg: {
-    type: Schema.Types.ObjectId,
-    ref: 'Img',
+    type: String,
     required: false,
   },
   deletedAt: {
