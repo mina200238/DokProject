@@ -48,6 +48,7 @@ class MyPageService {
     const myMatchingPosts = await MatchingPost.find({
       user: userId,
     })
+      .sort({ createdAt: -1 })
       .populate('user')
       .populate('userDog');
 
@@ -140,6 +141,7 @@ class MyPageService {
     const myCertificationLists = await CertificationPost.find({
       user: userId,
     })
+      .sort({ createdAt: -1 })
       .populate('user')
       .populate('matchingPost');
 
