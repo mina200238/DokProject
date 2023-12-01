@@ -40,8 +40,8 @@ class MyPageService {
       },
     );
 
-    //매칭 포스트의 개수 세기
-    const myMatchingCount = await MatchingPost.find({ user: userId }).count();
+    // //매칭 포스트의 개수 세기
+    // const myMatchingCount = await MatchingPost.find({ user: userId }).count();
 
     //내가 쓴 매칭글 불러오기
 
@@ -55,7 +55,7 @@ class MyPageService {
       throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
     }
 
-    return [myMatchingCount, myMatchingPosts];
+    return [myMatchingPosts.length, myMatchingPosts];
   }
 
   //내가 작성한 매칭 완료된 매칭 포스트 id들 중에서,  certification 에 해당 matchingPost id가 없을 경우
