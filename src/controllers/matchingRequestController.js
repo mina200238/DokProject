@@ -50,7 +50,7 @@ const updateMatchingRequest = async (req, res, next) => {
       requestText,
     } = req.body;
     const updatedMatchingRequest =
-      await MatchingRequestService.postMatchingRequest(
+      await MatchingRequestService.putMatchingRequest(
         _id,
         matchingPostId,
         price,
