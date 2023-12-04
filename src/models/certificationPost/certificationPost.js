@@ -10,7 +10,10 @@ const certificationSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'MatchingPost',
     },
-    certificationImg: [],
+    certificationImg: {
+      type: [String],
+      required: false,
+    },
     sublocation: {
       type: String,
     },
@@ -20,11 +23,13 @@ const certificationSchema = new Schema(
     review: {
       rating: {
         type: Number,
-        required: true,
+        //required: true,
+        default: 0,
       },
       reviewText: {
         type: String,
-        required: true,
+        //required: true,
+        default: '',
       },
     },
     // 인증글 삭제시간

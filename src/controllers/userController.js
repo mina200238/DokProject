@@ -1,9 +1,10 @@
-const userService = require('../services/userService');
-const userDogService = require('../services/userDogService');
 const UserCreateRequest = require('../dtos/users/userCreateRequest');
 const UserSignInRequest = require('../dtos/users/userSignInRequest');
 const UserUpdateRequest = require('../dtos/users/userUpdateRequest');
+const UserDeleteRequest = require('../dtos/users/userDeleteRequest');
 const MyInfoResponse = require('../dtos/users/myInfoResponse');
+const userService = require('../services/userService');
+const userDogService = require('../services/userDogService');
 
 async function signUp(req, res, next) {
   const {
@@ -45,9 +46,27 @@ async function signIn(req, res, next) {
   }
 }
 
+async function signOut(req, res, next) {
+  try {
+    await userService.signOut(res);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function deleteUser(req, res, next) {
+  const _id = req._id;
+  try {
+    const userDeleteRequest = new UserDeleteRequest(req.body);
+    const user = await userService.deleteUser(_id, userDeleteRequest);
+    res.status(201).json(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function editUserInfo(req, res, next) {
   const _id = req._id;
-
   try {
     const userUpdateRequest = new UserUpdateRequest(req.body);
     const updatedUser = await userService.editUserInfo(_id, userUpdateRequest);
@@ -72,13 +91,21 @@ async function getMyInfo(req, res, next) {
   try {
     const user = await userService.getUserById(_id);
     const userDogs = await userDogService.getUserDogByUserId(_id);
+    // const myInfoResponse = new MyInfoResponse(user, userDogs);
     // TODO: MyInfoResponse DTO를 만들어서 반환하도록 수정
     // user정보, 개 정보 함께 내려줘야함.
-    const myInfoResponse = new MyInfoResponse(user, userDogs);
-    res.status(200).json(myInfoResponse);
+    res.status(200).json({ user, userDogs });
   } catch (error) {
     next(error);
   }
 }
 
-module.exports = { signUp, signIn, editUserInfo, getUser, getMyInfo };
+module.exports = {
+  signUp,
+  signIn,
+  signOut,
+  editUserInfo,
+  getUser,
+  getMyInfo,
+  deleteUser,
+};

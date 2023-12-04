@@ -1,4 +1,5 @@
 const { model, Schema } = require('mongoose');
+const { schema } = require('./userDog');
 
 const userSchema = new Schema({
   userId: {
@@ -18,7 +19,10 @@ const userSchema = new Schema({
     required: true,
   },
   address: {
-    type: String,
+    type: {
+      text: String,
+      code: String,
+    },
     required: false, // 기본값이 false
   },
   phoneNumber: {
@@ -32,6 +36,10 @@ const userSchema = new Schema({
   isCertificated: {
     type: Boolean,
     default: false,
+  },
+  userImg: {
+    type: String,
+    required: false,
   },
   deletedAt: {
     type: Date,

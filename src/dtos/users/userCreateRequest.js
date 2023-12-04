@@ -10,11 +10,15 @@ class UserCreateRequest {
     name,
     nickname,
     phoneNumber,
-    address,
+    address = {
+      text: '',
+      code: '',
+    },
+    userImg,
     introduce,
     isCertificated,
   ) {
-    this.validate(userId, password, name, nickname, phoneNumber);
+    this.validate(userId, password, name, nickname, phoneNumber, address);
 
     this.userId = userId;
     this.password = password;
@@ -22,6 +26,7 @@ class UserCreateRequest {
     this.nickname = nickname;
     this.phoneNumber = phoneNumber;
     this.address = address;
+    this.userImg = userImg;
     this.introduce = introduce;
     this.isCertificated = isCertificated;
   }
@@ -51,6 +56,10 @@ class UserCreateRequest {
     return this.address;
   }
 
+  getUserImg() {
+    return this.userImg;
+  }
+
   getIntroduce() {
     return this.introduce;
   }
@@ -59,7 +68,7 @@ class UserCreateRequest {
     return this.isCertificated;
   }
 
-  validate(userId, password, name, nickname, phoneNumber) {
+  validate(userId, password, name, nickname, phoneNumber, address) {
     if (
       falsey(userId) ||
       falsey(password) ||
@@ -80,6 +89,11 @@ class UserCreateRequest {
         '비밀번호는 영문 대문자, 소문자, 숫자, 특수문자를 모두 포함해야 합니다.',
       );
     }
+
+    // if (!address || !address.text) {
+    //   throw new BadRequestError('올바른 주소를 입력해주세요.');
+    // }
+
     if (falsey(phoneNumber)) {
     } else {
       const PhoneNumberRegex = /^\d{4} \d{4}$/;

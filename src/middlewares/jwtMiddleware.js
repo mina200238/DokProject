@@ -3,7 +3,7 @@ const JwtUtil = require('../utils/jwtUtil');
 require('dotenv').config();
 
 async function authenticateToken(req, res, next) {
-  const token = req.headers.authorization.split(' ')[1];
+  const token = req.cookies.token;
 
   if (falsey(token)) {
     return res

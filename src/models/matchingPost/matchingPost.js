@@ -49,7 +49,7 @@ const MatchingPostSchema = new Schema(
 
     matchingStatus: {
       type: String,
-      default: '매칭중',
+      default: 'process',
     },
 
     matchingHandler: {
@@ -60,6 +60,7 @@ const MatchingPostSchema = new Schema(
 
     deletedAt: {
       type: Date,
+      default: null,
     },
   },
   {

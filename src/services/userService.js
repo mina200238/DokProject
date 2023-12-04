@@ -18,6 +18,7 @@ async function createUser(userCreateRequest) {
     nickname: userCreateRequest.getNickname(),
     phoneNumber: userCreateRequest.getPhoneNumber(),
     address: userCreateRequest.getAddress(),
+    userImg: userCreateRequest.getUserImg(),
     introduce: userCreateRequest.getIntroduce(),
     isCertificated: userCreateRequest.getIsCertificated(),
   });
@@ -43,9 +44,35 @@ async function signIn(res, userSignInRequest) {
   }
 
   const token = new JwtUtil().encode(user._id);
-  res.header('Bearer', `${token}`);
-
+  res.cookie('token', token, {
+    httpOnly: false,
+    secure: false,
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+  //res.header('Bearer', ` ${token}`);
   return user;
+}
+
+async function signOut(res) {
+  res.clearCookie('token');
+  return res.status(200).json({ message: '로그아웃 되었습니다.' });
+}
+
+async function deleteUser(_id, userDeleteRequest) {
+  try {
+    const user = await User.findById(_id).exec();
+    if (!user) {
+      throw new NotFoundError(`존재하지 않는 아이디입니다. inputId: ${_id}`);
+    }
+    if (!userDeleteRequest.getDeletedAt()) {
+      user.deletedAt = new Date();
+      await user.save();
+    }
+    return user;
+  } catch (error) {
+    console.error('Error deleting user:', error.message);
+    throw error;
+  }
 }
 
 async function editUserInfo(_id, userUpdateRequest) {
@@ -55,6 +82,7 @@ async function editUserInfo(_id, userUpdateRequest) {
 
   const update = {
     name: userUpdateRequest.getName(),
+    userImg: userUpdateRequest.getUserImg(),
     nickname: userUpdateRequest.getNickname(),
     phoneNumber: userUpdateRequest.getPhoneNumber(),
     address: userUpdateRequest.getAddress(),
@@ -76,11 +104,20 @@ async function getUser(userId) {
 }
 
 async function getUserById(_id) {
-  const user = await User.findById(_id).exec();
+  //const user = User.find({ user: _id }).populate('userImg');
+  const user = await User.findById(_id).populate('userImg');
   if (falsey(user)) {
     throw new NotFoundError(`존재하지 않는 아이디입니다. inputId: ${_id}`);
   }
   return user;
 }
 
-module.exports = { createUser, signIn, editUserInfo, getUser, getUserById };
+module.exports = {
+  createUser,
+  signIn,
+  editUserInfo,
+  getUser,
+  getUserById,
+  signOut,
+  deleteUser,
+};

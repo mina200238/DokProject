@@ -5,6 +5,7 @@ class MyInfoResponse {
     this.nickname = user.nickname;
     this.phoneNumber = user.phoneNumber;
     this.address = user.address;
+    this.userImg = user.userImg;
     this.introduce = user.introduce;
     this.isCertificated = user.isCertificated;
     this.createdAt = user.createdAt;

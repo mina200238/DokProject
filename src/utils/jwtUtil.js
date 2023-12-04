@@ -21,7 +21,7 @@ class JwtUtil {
       },
       this.secret,
       {
-        expiresIn: '2h',
+        expiresIn: '12h',
         algorithm: this.alg,
       },
     );
