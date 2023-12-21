@@ -53,7 +53,7 @@ class MatchingPostService {
       //해당 데이터의 개수세기
       const countPost = await MatchingPost.find({
         'location.code': {
-          $regex: new RegExp(`${locationCode}`),
+          $regex: new RegExp(`^${locationCode}`),
         },
         $expr: {
           $and: [
@@ -86,7 +86,7 @@ class MatchingPostService {
 
       const findPost = await MatchingPost.find({
         'location.code': {
-          $regex: new RegExp(`${locationCode}`),
+          $regex: new RegExp(`^${locationCode}`),
         },
         $expr: {
           $and: [
@@ -116,6 +116,7 @@ class MatchingPostService {
         },
         deletedAt: null,
       })
+        .sort({ createdAt: -1 })
         .skip(perPage * (page - 1))
         .limit(perPage)
         .populate('user')
@@ -130,17 +131,18 @@ class MatchingPostService {
     if (!walkingTime && locationCode) {
       const countPost = await MatchingPost.find({
         'location.code': {
-          $regex: new RegExp(`${locationCode}`),
+          $regex: new RegExp(`^${locationCode}`),
         },
         deletedAt: null,
       }).count();
 
       const findPost = await MatchingPost.find({
         'location.code': {
-          $regex: new RegExp(`${locationCode}`),
+          $regex: new RegExp(`^${locationCode}`),
         },
         deletedAt: null,
       })
+        .sort({ createdAt: -1 })
         .skip(perPage * (page - 1))
         .limit(perPage)
         .populate('user')
@@ -213,6 +215,7 @@ class MatchingPostService {
         },
         deletedAt: null,
       })
+        .sort({ createdAt: -1 })
         .skip(perPage * (page - 1))
         .limit(perPage)
         .populate('user')

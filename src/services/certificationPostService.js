@@ -76,7 +76,7 @@ class CertificationPostService {
               ],
             },
             'location.code': {
-              $regex: new RegExp(`${locationCode}`),
+              $regex: new RegExp(`^${locationCode}`),
             },
             deletedAt: null,
           },
@@ -95,6 +95,7 @@ class CertificationPostService {
       const foundDocuments = await CertificationPost.find({
         matchingPost: { $in: result },
       })
+        .sort({ createdAt: -1 })
         .skip(perPage * (page - 1))
         .limit(perPage)
         .populate('user')
@@ -108,7 +109,6 @@ class CertificationPostService {
           populate: { path: 'userDog' },
         });
 
-      console.log(foundDocuments);
       if (!foundDocuments) {
         throw new NotFoundError(`요청받은 리소스를 찾을 수 없습니다`);
       }
@@ -122,7 +122,7 @@ class CertificationPostService {
         {
           $match: {
             'location.code': {
-              $regex: new RegExp(`${locationCode}`),
+              $regex: new RegExp(`^${locationCode}`),
             },
             deletedAt: null,
           },
@@ -141,6 +141,7 @@ class CertificationPostService {
       const foundDocuments = await CertificationPost.find({
         matchingPost: { $in: result },
       })
+        .sort({ createdAt: -1 })
         .skip(perPage * (page - 1))
         .limit(perPage)
         .populate('user')
@@ -211,6 +212,7 @@ class CertificationPostService {
       const foundDocuments = await CertificationPost.find({
         matchingPost: { $in: result },
       })
+        .sort({ createdAt: -1 })
         .skip(perPage * (page - 1))
         .limit(perPage)
         .populate('user')
