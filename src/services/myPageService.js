@@ -143,7 +143,11 @@ class MyPageService {
     })
       .sort({ createdAt: -1 })
       .populate('user')
-      .populate('matchingPost');
+      .populate('matchingPost')
+      .populate({
+        path: 'matchingPost',
+        populate: { path: 'userDog' },
+      });
 
     return [myCertificationLists.length, myCertificationLists];
   }
