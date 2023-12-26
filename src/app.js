@@ -17,6 +17,7 @@ const matchingRequestRouter = require('./routers/matchingRequestRouter.js');
 const mainRouter = require('./routers/mainRouter.js');
 const myPageRouter = require('./routers/myPageRouter.js');
 const uploadRouter = require('./routers/uploadRouter');
+const bookMarkRouter = require('./routers/bookMarkRouter.js');
 
 mongoose
   .connect(process.env.MONGO_DB_URL)
@@ -45,6 +46,7 @@ app.use('/api/matchingPostDetail', matchingPostRouter); // 상세 정보 불러�
 app.use('/api/matchingRequestRouter', matchingRequestRouter); // 매칭글 신청하기
 app.use('/api/certificationRouter', certificationPostRouter); // 인증글
 app.use('/api/upload', uploadRouter);
+app.use('/api/bookMark', bookMarkRouter);
 
 app.use(errorHandler);
 app.listen(process.env.PORT, () => {
