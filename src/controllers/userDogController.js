@@ -39,4 +39,17 @@ async function getMyDog(req, res, next) {
   }
 }
 
-module.exports = { createUserDog, getMyDog };
+async function deleteUserDog(req, res, next) {
+  const userDogId = req.query.userDogId;
+  const _id = req._id;
+  const dogName = req.dogName;
+  try {
+    const user = await userService.getUserById(_id);
+    const userDog = await userDogService.deleteUserDog(user);
+    res.status(200).json(userDog);
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { createUserDog, getMyDog, deleteUserDog };
