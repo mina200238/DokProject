@@ -31,7 +31,7 @@ const userSchema = new Schema({
   },
   introduce: {
     type: String,
-    required: false,
+    default: null,
   },
   isCertificated: {
     type: Boolean,
