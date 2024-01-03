@@ -5,12 +5,15 @@ const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 const router = Router();
 
-router.get('/', userController.getUser);
+router.get('/userInfo/:_id', userController.getUserInfo);
 router.get(
   '/myInfo',
   jwtMiddleware.authenticateToken,
   userController.getMyInfo,
 );
+
+router.get('userInfo/:userId', userController.getUserInfo);
+
 router.get(
   '/myDog',
   jwtMiddleware.authenticateToken,
