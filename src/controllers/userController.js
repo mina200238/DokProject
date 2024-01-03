@@ -86,6 +86,17 @@ async function getUser(req, res, next) {
   }
 }
 
+async function getUserInfo(req, res, next) {
+  const _id = req.params._id;
+  try {
+    const user = await userService.getUserById(_id);
+    const userDogs = await userDogService.getUserDogByUserId(_id);
+    res.status(200).json({ user, userDogs });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function getMyInfo(req, res, next) {
   const _id = req._id;
   try {
@@ -107,5 +118,6 @@ module.exports = {
   editUserInfo,
   getUser,
   getMyInfo,
+  getUserInfo,
   deleteUser,
 };
