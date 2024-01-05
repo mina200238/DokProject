@@ -5,13 +5,16 @@ const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 const router = Router();
 
+//user프로필정보
 router.get('/userInfo/:_id', userController.getUserInfo);
+
 router.get(
   '/myInfo',
   jwtMiddleware.authenticateToken,
   userController.getMyInfo,
 );
 
+//지워도 되는건가?
 router.get('userInfo/:userId', userController.getUserInfo);
 
 router.get(
