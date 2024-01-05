@@ -45,12 +45,11 @@ async function signIn(res, userSignInRequest) {
 
   const token = new JwtUtil().encode(user._id);
   res.cookie('token', token, {
-    httpOnly: true,
-    secure: true,
+    httpOnly: false,
+    secure: false,
     maxAge: 24 * 60 * 60 * 1000,
-    sameSite: 'none',
   });
-  res.header('Bearer', ` ${token}`);
+  //res.header('Bearer', ` ${token}`);
   return user;
 }
 
