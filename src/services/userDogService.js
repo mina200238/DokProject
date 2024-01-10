@@ -40,4 +40,12 @@ async function deleteUserDog(_id, userDogDeleteRequest) {
     throw error;
   }
 }
-module.exports = { getUserDogByUserId, createUserDog, deleteUserDog };
+
+async function calculateStarRating() {}
+
+module.exports = {
+  getUserDogByUserId,
+  createUserDog,
+  deleteUserDog,
+  calculateStarRating,
+};
