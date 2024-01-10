@@ -59,7 +59,7 @@ async function signOut(res) {
   return res.status(200).json({ message: '로그아웃 되었습니다.' });
 }
 
-//🚩
+
 async function deleteUser(_id, userDeleteRequest) {
   try {
     const user = await User.findById(_id).exec();
@@ -120,11 +120,9 @@ async function calculateAverageRating(_id) {
     user: _id,
   }).select('review.rating');
 
-  console.log(myCertificationLists);
 
   // 가져온 별점들의 총합을 계산
   const totalRating = myCertificationLists.reduce((sum, certification) => {
-    console.log(sum, certification);
     return sum + certification.review.rating;
   }, 0);
 
