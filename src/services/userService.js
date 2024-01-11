@@ -1,7 +1,6 @@
 const UnauthenticationError = require('../errors/unauthenticationError');
 const NotFoundError = require('../errors/notFoundError');
 const User = require('../models/user/user');
-const CertificationPost = require('../models/certificationPost/certificationPost');
 const PasswordEncoder = require('../utils/passwordEncoder');
 const JwtUtil = require('../utils/jwtUtil');
 const falsey = require('falsey');
@@ -59,7 +58,6 @@ async function signOut(res) {
   return res.status(200).json({ message: '로그아웃 되었습니다.' });
 }
 
-//🚩
 async function deleteUser(_id, userDeleteRequest) {
   try {
     const user = await User.findById(_id).exec();
@@ -114,26 +112,6 @@ async function getUserById(_id) {
   return user;
 }
 
-//🚩내 별점 계산하기
-async function calculateAverageRating(_id) {
-  const myCertificationLists = await CertificationPost.find({
-    user: _id,
-  }).select('review.rating');
-
-  console.log(myCertificationLists);
-
-  // 가져온 별점들의 총합을 계산
-  const totalRating = myCertificationLists.reduce((sum, certification) => {
-    console.log(sum, certification);
-    return sum + certification.review.rating;
-  }, 0);
-
-  const averageRating = totalRating / myCertificationLists.length;
-
-  //별점 평균과 인증글 개수를 반환
-  return [averageRating, myCertificationLists.length];
-}
-
 module.exports = {
   createUser,
   signIn,
@@ -142,5 +120,4 @@ module.exports = {
   getUserById,
   signOut,
   deleteUser,
-  calculateAverageRating,
 };
