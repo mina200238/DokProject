@@ -14,9 +14,6 @@ router.get(
   userController.getMyInfo,
 );
 
-//지워도 되는건가?
-router.get('userInfo/:userId', userController.getUserInfo);
-
 router.get(
   '/myDog',
   jwtMiddleware.authenticateToken,

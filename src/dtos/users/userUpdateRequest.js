@@ -14,6 +14,7 @@ class UserUpdateRequest {
       address,
       body.phoneNumber,
       body.nickname,
+      body.introduce,
     );
     this.password = body.password;
     this.confirmPassword = body.confirmPassword;
@@ -22,6 +23,7 @@ class UserUpdateRequest {
     this.phoneNumber = body.phoneNumber;
     this.nickname = body.nickname;
     this.userImg = body.userImg;
+    this.introduce = body.introduce;
   }
 
   verify(password, confirmPassword, name, address, phoneNumber, nickname) {
@@ -79,6 +81,10 @@ class UserUpdateRequest {
 
   getUserImg() {
     return this.userImg;
+  }
+
+  getIntroduce() {
+    return this.introduce;
   }
 }
 

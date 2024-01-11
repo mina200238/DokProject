@@ -59,7 +59,6 @@ async function signOut(res) {
   return res.status(200).json({ message: '로그아웃 되었습니다.' });
 }
 
-
 async function deleteUser(_id, userDeleteRequest) {
   try {
     const user = await User.findById(_id).exec();
@@ -88,6 +87,7 @@ async function editUserInfo(_id, userUpdateRequest) {
     nickname: userUpdateRequest.getNickname(),
     phoneNumber: userUpdateRequest.getPhoneNumber(),
     address: userUpdateRequest.getAddress(),
+    introduce: userUpdateRequest.getIntroduce(),
     password: encryptedPassword,
   };
   const options = { new: true };
@@ -119,7 +119,6 @@ async function calculateAverageRating(_id) {
   const myCertificationLists = await CertificationPost.find({
     user: _id,
   }).select('review.rating');
-
 
   // 가져온 별점들의 총합을 계산
   const totalRating = myCertificationLists.reduce((sum, certification) => {
