@@ -93,8 +93,25 @@ async function editUserInfo(_id, userUpdateUserInfoRequest) {
 }
 
 async function editUserPassword(_id, userUpdatePasswordRequest) {
+  //현재 암호화된 비밀번호 불러오기
+  const currentEncryptedPassword = await User.findById(_id).select({
+    password: 1,
+  });
+
+  const checkCurrentPassoword = await PasswordEncoder.compare(
+    userUpdatePasswordRequest.getCurrentPassword(),
+    currentEncryptedPassword,
+  );
+
+  if (!checkCurrentPassoword) {
+    throw new UnauthenticationError(
+      `비밀번호가 일치하지 않습니다. inputPassword: ${password}`,
+    );
+  }
+
+  //새 비밀번호 암호화
   const encryptedPassword = await PasswordEncoder.hash(
-    userUpdatePasswordRequest.getPassword(),
+    userUpdatePasswordRequest.getNewPassword(),
   );
 
   const update = {
@@ -102,6 +119,7 @@ async function editUserPassword(_id, userUpdatePasswordRequest) {
   };
   const options = { new: true };
 
+  //비밀번호 변경
   const updatedUser = await User.findByIdAndUpdate(_id, update, options).exec();
 
   return updatedUser;
