@@ -24,10 +24,18 @@ router.post('/signUp', userController.signUp);
 router.post('/signIn', userController.signIn);
 router.post('/signOut', userController.signOut);
 
+//user개인정보변경 api
 router.patch(
   '/myInfo',
   jwtMiddleware.authenticateToken,
   userController.editUserInfo,
+);
+
+//user비밀번호 변경 api
+router.patch(
+  '/myPassword',
+  jwtMiddleware.authenticateToken,
+  userController.editUserPassword,
 );
 
 router.delete(

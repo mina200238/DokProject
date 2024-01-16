@@ -1,6 +1,7 @@
 const UserCreateRequest = require('../dtos/users/userCreateRequest');
 const UserSignInRequest = require('../dtos/users/userSignInRequest');
-const UserUpdateRequest = require('../dtos/users/userUpdateRequest');
+const UserUpdateUserInfoRequest = require('../dtos/users/userUpdateUserInfoRequest.js');
+const UserUpdatePasswordRequest = require('../dtos/users/userUpdatePasswordRequest.js');
 const UserDeleteRequest = require('../dtos/users/userDeleteRequest');
 const MyInfoResponse = require('../dtos/users/myInfoResponse');
 const userService = require('../services/userService');
@@ -68,8 +69,29 @@ async function deleteUser(req, res, next) {
 async function editUserInfo(req, res, next) {
   const _id = req._id;
   try {
-    const userUpdateRequest = new UserUpdateRequest(req.body);
-    const updatedUser = await userService.editUserInfo(_id, userUpdateRequest);
+    //req.body로 수정할 개인정보값을 전달
+    // 비밀번호 제외한 나머지 개인정보
+    const userUpdateUserInfoRequest = new UserUpdateUserInfoRequest(req.body);
+    const updatedUser = await userService.editUserInfo(
+      _id,
+      userUpdateUserInfoRequest,
+    );
+    res.status(201).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function editUserPassword(req, res, next) {
+  const _id = req._id;
+  try {
+    //req.body로 수정할 비밀번호 값을 전달
+    // 비밀번호
+    const userUpdatePasswordRequest = new UserUpdatePasswordRequest(req.body);
+    const updatedUser = await userService.editUserPassword(
+      _id,
+      userUpdatePasswordRequest,
+    );
     res.status(201).json(updatedUser);
   } catch (error) {
     next(error);
@@ -121,6 +143,7 @@ module.exports = {
   signIn,
   signOut,
   editUserInfo,
+  editUserPassword,
   getUser,
   getMyInfo,
   getUserInfo,
