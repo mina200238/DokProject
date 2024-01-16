@@ -76,18 +76,28 @@ async function deleteUser(_id, userDeleteRequest) {
   }
 }
 
-async function editUserInfo(_id, userUpdateRequest) {
+async function editUserInfo(_id, userUpdateUserInfoRequest) {
+  const update = {
+    name: userUpdateUserInfoRequest.getName(),
+    userImg: userUpdateUserInfoRequest.getUserImg(),
+    nickname: userUpdateUserInfoRequest.getNickname(),
+    phoneNumber: userUpdateUserInfoRequest.getPhoneNumber(),
+    address: userUpdateUserInfoRequest.getAddress(),
+    introduce: userUpdateUserInfoRequest.getIntroduce(),
+  };
+  const options = { new: true };
+
+  const updatedUser = await User.findByIdAndUpdate(_id, update, options).exec();
+
+  return updatedUser;
+}
+
+async function editUserPassword(_id, userUpdatePasswordRequest) {
   const encryptedPassword = await PasswordEncoder.hash(
-    userUpdateRequest.getPassword(),
+    userUpdatePasswordRequest.getPassword(),
   );
 
   const update = {
-    name: userUpdateRequest.getName(),
-    userImg: userUpdateRequest.getUserImg(),
-    nickname: userUpdateRequest.getNickname(),
-    phoneNumber: userUpdateRequest.getPhoneNumber(),
-    address: userUpdateRequest.getAddress(),
-    introduce: userUpdateRequest.getIntroduce(),
     password: encryptedPassword,
   };
   const options = { new: true };
@@ -135,6 +145,7 @@ module.exports = {
   createUser,
   signIn,
   editUserInfo,
+  editUserPassword,
   getUser,
   getUserById,
   signOut,
