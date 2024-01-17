@@ -111,19 +111,14 @@ async function getUser(req, res, next) {
 async function getUserInfo(req, res, next) {
   const _id = req.params._id;
   try {
-    //유저 기본정보
     const user = await userService.getUserById(_id);
-    //유저 강아지 정보
     const userDogs = await userDogService.getUserDogByUserId(_id);
-    //유저 별점
-    const userAverageRating = await userService.calculateAverageRating(_id);
-    res.status(200).json({ user, userAverageRating, userDogs });
+    res.status(200).json({ user, userDogs });
   } catch (error) {
     next(error);
   }
 }
 
-//프로필(사용자 소개)
 async function getMyInfo(req, res, next) {
   const _id = req._id;
   try {

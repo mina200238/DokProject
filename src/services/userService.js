@@ -1,7 +1,6 @@
 const UnauthenticationError = require('../errors/unauthenticationError');
 const NotFoundError = require('../errors/notFoundError');
 const User = require('../models/user/user');
-const CertificationPost = require('../models/certificationPost/certificationPost');
 const PasswordEncoder = require('../utils/passwordEncoder');
 const JwtUtil = require('../utils/jwtUtil');
 const falsey = require('falsey');
@@ -168,5 +167,4 @@ module.exports = {
   getUserById,
   signOut,
   deleteUser,
-  calculateAverageRating,
 };

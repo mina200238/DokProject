@@ -5,9 +5,7 @@ const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 const router = Router();
 
-//user프로필정보
 router.get('/userInfo/:_id', userController.getUserInfo);
-
 router.get(
   '/myInfo',
   jwtMiddleware.authenticateToken,
