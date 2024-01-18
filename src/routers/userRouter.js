@@ -22,6 +22,13 @@ router.post('/signUp', userController.signUp);
 router.post('/signIn', userController.signIn);
 router.post('/signOut', userController.signOut);
 
+//user 소개글 변경 api
+router.patch(
+  '/myIntroduce',
+  jwtMiddleware.authenticateToken,
+  userController.editUserIntroduce,
+);
+
 //user개인정보변경 api
 router.patch(
   '/myInfo',

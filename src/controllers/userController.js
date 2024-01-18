@@ -2,6 +2,7 @@ const UserCreateRequest = require('../dtos/users/userCreateRequest');
 const UserSignInRequest = require('../dtos/users/userSignInRequest');
 const UserUpdateUserInfoRequest = require('../dtos/users/userUpdateUserInfoRequest.js');
 const UserUpdatePasswordRequest = require('../dtos/users/userUpdatePasswordRequest.js');
+const UserUpdateIntroduceRequest = require('../dtos/users/userUpdateIntroduceRequest.js');
 const UserDeleteRequest = require('../dtos/users/userDeleteRequest');
 const MyInfoResponse = require('../dtos/users/myInfoResponse');
 const userService = require('../services/userService');
@@ -82,6 +83,24 @@ async function editUserInfo(req, res, next) {
   }
 }
 
+async function editUserIntroduce(req, res, next) {
+  const _id = req._id;
+  try {
+    //req.body로 수정할 소개글값을 전달
+
+    const userUpdateUserIntroduceRequest = new UserUpdateIntroduceRequest(
+      req.body,
+    );
+    const updatedUser = await userService.editUserIntroduce(
+      _id,
+      userUpdateUserIntroduceRequest,
+    );
+    res.status(201).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function editUserPassword(req, res, next) {
   const _id = req._id;
   try {
@@ -138,6 +157,7 @@ module.exports = {
   signIn,
   signOut,
   editUserInfo,
+  editUserIntroduce,
   editUserPassword,
   getUser,
   getMyInfo,

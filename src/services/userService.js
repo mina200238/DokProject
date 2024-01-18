@@ -91,6 +91,18 @@ async function editUserInfo(_id, userUpdateUserInfoRequest) {
   return updatedUser;
 }
 
+//사용자 소개글 수정
+async function editUserIntroduce(_id, userUpdateUserIntroduceRequest) {
+  const update = {
+    introduce: userUpdateUserIntroduceRequest.getIntroduce(),
+  };
+  const options = { new: true };
+
+  const updatedUser = await User.findByIdAndUpdate(_id, update, options).exec();
+
+  return updatedUser;
+}
+
 async function editUserPassword(_id, userUpdatePasswordRequest) {
   //현재 암호화된 비밀번호 불러오기
   const currentEncryptedPassword = await User.findById(_id).select({
@@ -102,6 +114,7 @@ async function editUserPassword(_id, userUpdatePasswordRequest) {
     currentEncryptedPassword,
   );
 
+  //비밀번호 확인
   if (!checkCurrentPassoword) {
     throw new UnauthenticationError(
       `비밀번호가 일치하지 않습니다. inputPassword: ${password}`,
@@ -162,6 +175,7 @@ module.exports = {
   createUser,
   signIn,
   editUserInfo,
+  editUserIntroduce,
   editUserPassword,
   getUser,
   getUserById,
