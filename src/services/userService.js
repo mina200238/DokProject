@@ -1,6 +1,7 @@
 const UnauthenticationError = require('../errors/unauthenticationError');
 const NotFoundError = require('../errors/notFoundError');
 const User = require('../models/user/user');
+const CertificationPost = require('../models/certificationPost/certificationPost');
 const PasswordEncoder = require('../utils/passwordEncoder');
 const JwtUtil = require('../utils/jwtUtil');
 const falsey = require('falsey');
@@ -168,6 +169,7 @@ async function calculateAverageRating(_id) {
   const averageRating = totalRating / myCertificationLists.length;
 
   //별점 평균과 인증글 개수를 반환
+
   return [averageRating, myCertificationLists.length];
 }
 
@@ -181,4 +183,5 @@ module.exports = {
   getUserById,
   signOut,
   deleteUser,
+  calculateAverageRating,
 };

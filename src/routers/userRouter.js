@@ -5,7 +5,10 @@ const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 const router = Router();
 
+//요청한 사용자 정보 불러오기
 router.get('/userInfo/:_id', userController.getUserInfo);
+
+//본인 정보 불러오기
 router.get(
   '/myInfo',
   jwtMiddleware.authenticateToken,

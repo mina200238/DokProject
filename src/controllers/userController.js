@@ -127,26 +127,31 @@ async function getUser(req, res, next) {
   }
 }
 
+//요청한 사용자의 정보 가져오기
 async function getUserInfo(req, res, next) {
   const _id = req.params._id;
   try {
     const user = await userService.getUserById(_id);
     const userDogs = await userDogService.getUserDogByUserId(_id);
-    res.status(200).json({ user, userDogs });
+    //별점 계산하기
+    const rating = await userService.calculateAverageRating(_id);
+    res.status(200).json({ user, rating, userDogs });
   } catch (error) {
     next(error);
   }
 }
 
+//내 정보 가져오기
 async function getMyInfo(req, res, next) {
   const _id = req._id;
   try {
     const user = await userService.getUserById(_id);
     const userDogs = await userDogService.getUserDogByUserId(_id);
+    const rating = await userService.calculateAverageRating(_id);
     // const myInfoResponse = new MyInfoResponse(user, userDogs);
     // TODO: MyInfoResponse DTO를 만들어서 반환하도록 수정
     // user정보, 개 정보 함께 내려줘야함.
-    res.status(200).json({ user, userDogs });
+    res.status(200).json({ user, rating, userDogs });
   } catch (error) {
     next(error);
   }
