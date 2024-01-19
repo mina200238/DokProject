@@ -110,15 +110,16 @@ async function editUserPassword(_id, userUpdatePasswordRequest) {
     password: 1,
   });
 
+  //비밀번호가 틀렸을 시 false가 return
   const checkCurrentPassoword = await PasswordEncoder.compare(
     userUpdatePasswordRequest.getCurrentPassword(),
     currentEncryptedPassword.password,
   );
 
   //비밀번호 확인
-  if (!checkCurrentPassoword) {
+  if (checkCurrentPassoword === false) {
     throw new UnauthenticationError(
-      `비밀번호가 일치하지 않습니다. inputPassword: ${password}`,
+      `비밀번호가 일치하지 않습니다. inputPassword: ${userUpdatePasswordRequest.getCurrentPassword()}`,
     );
   }
 
