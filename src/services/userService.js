@@ -112,7 +112,7 @@ async function editUserPassword(_id, userUpdatePasswordRequest) {
 
   const checkCurrentPassoword = await PasswordEncoder.compare(
     userUpdatePasswordRequest.getCurrentPassword(),
-    currentEncryptedPassword,
+    currentEncryptedPassword.password,
   );
 
   //비밀번호 확인
