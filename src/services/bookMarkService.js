@@ -44,7 +44,7 @@ class BookMarkService {
       user: userId,
       matchingStatus: 'process',
       deletedAt: null,
-    });
+    }).populate('userDog');
 
     console.log(myMatchingPostList);
 
