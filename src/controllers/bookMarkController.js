@@ -4,6 +4,10 @@ const bookMarkService = require('../services/bookMarkService');
 const getMyMatchingPostInfo = async (req, res, next) => {
   try {
     const userId = req._id;
+    const findMyMatchingPostInfo =
+      await bookMarkService.getMyMatchingPostInfo(userId);
+
+    res.status(200).json(findMyMatchingPostInfo);
   } catch (err) {
     next(err);
   }
