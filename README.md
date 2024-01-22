@@ -104,8 +104,10 @@ DOK 서비스를 통해서 자유롭게 핸들러를 찾아보세요!
 
 - 모든 사용자는 매칭 글 리스트를 볼 수 있다.
 - 매칭 글 리스트는 지역 별, 산책 날짜 별로 필터링하여 확인할 수 있다.
+  
+![필터링 검색](https://github.com/pado0711/DokProject-backend/assets/109504714/62a726e8-cc75-4df8-b32e-e7cef55568a6)
 
-![마이페이지 매칭](https://github.com/pado0711/DokProject-backend/assets/109504714/3c41a6a9-f662-4b32-977a-eed4c180413a)
+
 
 <br/>
 
